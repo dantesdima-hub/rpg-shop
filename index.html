@@ -4,82 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Чат-РПГ — Магазин</title>
+    <link rel="canonical" href="https://dantesdima-hub.github.io/rpg-shop/">
     <meta name="description" content="Витрина экипировки T1–T5 и расходников чат-РПГ. Покупка через Twitch-чат: !купить">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0b0912;
             --bg-2: #14101c;
-            --card: rgba(22, 18, 32, 0.72);
+            --card: rgba(22, 18, 32, 0.78);
             --stroke: rgba(232, 200, 114, 0.22);
             --gold: #e8c872;
             --gold-2: #c9a227;
             --ink: #f4efe4;
             --muted: #b7ae9c;
-            --ok: #86efac;
-            --atk: #fca5a5;
-            --def: #93c5fd;
+            --atk: #f87171;
+            --def: #60a5fa;
+            --pwr: #c084fc;
+            --price: #fbbf24;
             --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+            --glow: 0 0 18px rgba(232, 200, 114, 0.28);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
             min-height: 100vh;
             color: var(--ink);
-            font-family: Inter, "Segoe UI", sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background:
                 radial-gradient(1200px 600px at 10% -10%, rgba(232, 200, 114, 0.16), transparent 55%),
                 radial-gradient(900px 500px at 110% 10%, rgba(88, 28, 135, 0.28), transparent 50%),
                 linear-gradient(180deg, #120e18 0%, var(--bg) 40%, #09070d 100%);
         }
-        .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 22px 0 64px; }
-        header {
-            display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
-            gap: 16px; margin-bottom: 22px;
-        }
+        .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 64px; }
+        header { text-align: center; margin-bottom: 22px; }
         .eyebrow {
             font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
             color: var(--gold); font-weight: 800;
         }
         h1 {
-            font-family: Cinzel, serif; font-weight: 800; font-size: clamp(28px, 5vw, 46px);
-            line-height: 1.05; margin-top: 4px;
+            font-family: Cinzel, serif; font-weight: 800; font-size: clamp(32px, 6vw, 52px);
+            line-height: 1.05; margin-top: 8px;
         }
         h1 span { color: var(--gold); }
-        .lede { max-width: 46ch; color: var(--muted); margin-top: 8px; font-size: 15px; line-height: 1.5; }
-        nav {
-            display: flex; flex-wrap: wrap; gap: 8px;
-            position: sticky; top: 10px; z-index: 5;
-            background: rgba(11, 9, 18, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--stroke);
+        .lede {
+            max-width: 52ch; color: var(--muted); margin: 10px auto 0;
+            font-size: 15px; line-height: 1.5;
+        }
+        .tabs {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            margin: 22px auto 8px; max-width: 720px;
+        }
+        .tabs button {
+            appearance: none; cursor: pointer;
+            font-family: inherit; font-weight: 700; font-size: 15px;
+            color: var(--ink);
+            background: rgba(12, 10, 18, 0.62);
+            border: 1px solid rgba(212, 175, 55, 0.22);
             border-radius: 999px;
-            padding: 6px;
-            box-shadow: var(--shadow);
+            padding: 12px 22px;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
         }
-        nav a {
-            color: var(--ink); text-decoration: none; font-weight: 700; font-size: 13px;
-            padding: 8px 14px; border-radius: 999px;
+        .tabs button:hover, .tabs button:focus {
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold);
+            outline: none;
         }
-        nav a:hover, nav a:focus { background: rgba(232, 200, 114, 0.16); color: var(--gold); }
-        section { margin-top: 36px; }
+        .tabs button.active {
+            color: #1a1408;
+            background: linear-gradient(180deg, #f3d789, #c9a227);
+            border-color: rgba(243, 215, 137, 0.9);
+            box-shadow: var(--glow);
+        }
+        section { margin-top: 28px; display: none; }
+        section.active { display: block; }
         .sec-title {
-            font-family: Cinzel, serif; font-size: clamp(22px, 3vw, 30px); font-weight: 700;
+            font-size: clamp(22px, 3vw, 30px); font-weight: 800;
             margin-bottom: 6px;
         }
-        .sec-note { color: var(--muted); font-size: 14px; margin-bottom: 16px; max-width: 70ch; line-height: 1.45; }
-        .slot { margin: 22px 0 28px; }
-        .slot-head {
-            display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
-            margin-bottom: 10px;
+        .sec-note { color: var(--muted); font-size: 14px; margin-bottom: 18px; max-width: 70ch; line-height: 1.45; }
+        .slot { margin: 8px 0 32px; padding-top: 8px; }
+        .slot + .slot {
+            border-top: 1px solid rgba(232, 200, 114, 0.22);
+            box-shadow: 0 -10px 18px -16px rgba(232, 200, 114, 0.7);
+            padding-top: 22px;
         }
-        .slot-head h3 { font-family: Cinzel, serif; font-size: 18px; }
-        .slot-head small { color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+        .slot-head {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+            margin-bottom: 14px;
+        }
+        .slot-head h3 {
+            font-size: clamp(20px, 2.4vw, 26px); font-weight: 800; letter-spacing: 0.01em;
+        }
+        .slot-badge {
+            display: inline-flex; align-items: center;
+            font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            background: rgba(12, 10, 18, 0.55);
+            border-radius: 999px;
+            padding: 4px 10px;
+        }
         .row {
-            display: grid; grid-template-columns: repeat(5, minmax(170px, 1fr)); gap: 10px;
+            display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
         }
         .card {
             background: var(--card);
@@ -87,27 +115,38 @@
             border-radius: 16px;
             padding: 14px 14px 12px;
             box-shadow: var(--shadow);
-            min-width: 170px;
+            overflow: hidden;
         }
         .tier {
             font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: var(--gold-2);
             text-transform: uppercase;
         }
         .name {
-            font-family: Cinzel, serif; font-size: 16px; font-weight: 700; margin: 6px 0 8px;
-            line-height: 1.25; min-height: 2.5em;
+            font-size: 16px; font-weight: 700; margin: 6px 0 8px;
+            line-height: 1.3;
         }
-        .stats { display: flex; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+        .stats { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
         .atk { color: var(--atk); }
         .def { color: var(--def); }
-        .pwr { color: var(--ok); }
-        .price { font-size: 18px; font-weight: 800; color: var(--gold); }
+        .pwr {
+            color: var(--pwr);
+            background: rgba(192, 132, 252, 0.12);
+            border: 1px solid rgba(192, 132, 252, 0.28);
+            border-radius: 999px;
+            padding: 1px 8px;
+        }
+        .price { font-size: 18px; font-weight: 800; color: var(--price); }
         .price span { font-size: 12px; color: var(--muted); font-weight: 600; margin-left: 2px; }
         code, .buy {
-            display: block; margin-top: 10px; font-family: ui-monospace, Consolas, monospace;
-            font-size: 11.5px; color: #fde68a; background: rgba(0,0,0,0.38);
-            border-radius: 8px; padding: 7px 8px; overflow-x: auto; white-space: nowrap;
+            display: block; margin-top: 10px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+            font-size: 0.78rem; color: #fde68a; background: rgba(0,0,0,0.38);
+            border-radius: 8px; padding: 7px 8px;
+            white-space: normal; overflow: visible;
+            word-break: break-word; overflow-wrap: anywhere;
+            cursor: pointer;
         }
+        .buy.copied { color: #86efac; }
         .consumables {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;
         }
@@ -125,182 +164,222 @@
             margin-top: 40px; color: var(--muted); font-size: 13px; line-height: 1.5;
             border-top: 1px solid rgba(232, 200, 114, 0.14); padding-top: 16px;
         }
-        @media (max-width: 900px) {
-            .row {
-                display: flex; overflow-x: auto; padding-bottom: 8px;
-                scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-            }
-            .card { scroll-snap-align: start; flex: 0 0 78%; }
-            nav { border-radius: 16px; }
+        @media (max-width: 980px) {
+            .row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
-        @media (max-width: 560px) {
+        @media (max-width: 700px) {
+            .row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .tabs button { width: 100%; }
+        }
+        @media (max-width: 480px) {
             .wrap { width: min(100%, calc(100% - 20px)); }
-            .card { flex-basis: 86%; }
-            .name { min-height: 0; }
+            .row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="wrap">
         <header>
-            <div>
-                <div class="eyebrow">Twitch чат-РПГ</div>
-                <h1>Магазин <span>героя</span></h1>
-                <p class="lede">Каталог вынесен из чата. Смотри цены и мощь здесь, покупай командой <b>!купить</b> на стриме.</p>
-            </div>
-            <nav>
-                <a href="#gear">Экипировка</a>
-                <a href="#consumables">Расходники</a>
-                <a href="#commands">Команды</a>
-            </nav>
+            <div class="eyebrow">Twitch чат-РПГ</div>
+            <h1>Магазин <span>героя</span></h1>
+            <p class="lede">Каталог вынесен из чата. Смотри цены и мощь здесь, покупай командой <b>!купить</b> на стриме. Клик по команде копирует её.</p>
         </header>
 
-        <section id="gear">
+        <nav class="tabs" role="tablist" aria-label="Разделы магазина">
+            <button type="button" class="active" data-tab="gear" role="tab" aria-selected="true">⚔️ Экипировка</button>
+            <button type="button" data-tab="consumables" role="tab" aria-selected="false">🧪 Расходники</button>
+            <button type="button" data-tab="commands" role="tab" aria-selected="false">📜 Команды</button>
+        </nav>
+
+        <section id="gear" class="active">
             <h2 class="sec-title">Экипировка T1–T5</h2>
-            <p class="sec-note">Пять слотов: оружие, шлем, броня, сапоги, амулет. Покупка по имени предмета. Старый шмот в том же слоте продаётся автоматически за <b>40%</b> своей цены — золото сразу возвращается на баланс.</p>
+            <p class="sec-note">Пять слотов: оружие, шлем, броня, сапоги, амулет. Покупка по имени или <b>!купить слот тир</b>. Старый шмот в том же слоте продаётся автоматически за <b>40%</b> своей цены — золото сразу возвращается на баланс.</p>
 
             <article class="slot">
-                <div class="slot-head"><h3>Оружие</h3><small>слот: оружие</small></div>
+                <div class="slot-head"><h3>⚔️ Оружие</h3><span class="slot-badge">Слот: Оружие</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="name">Ржавый тесак</div><div class="stats"><span class="atk">+7 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 10</span></div><div class="price">200<span>g</span></div><code>!купить ржавый тесак</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="name">Меч наёмника</div><div class="stats"><span class="atk">+22 атк</span><span class="def">+9 защ</span><span class="pwr">мощь 31</span></div><div class="price">900<span>g</span></div><code>!купить меч наёмника</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="name">Клинок бури</div><div class="stats"><span class="atk">+57 атк</span><span class="def">+24 защ</span><span class="pwr">мощь 81</span></div><div class="price">3 000<span>g</span></div><code>!купить клинок бури</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="name">Клинок метеоритной стали</div><div class="stats"><span class="atk">+128 атк</span><span class="def">+55 защ</span><span class="pwr">мощь 183</span></div><div class="price">11 000<span>g</span></div><code>!купить клинок метеоритной стали</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="name">Клинок конца времён</div><div class="stats"><span class="atk">+280 атк</span><span class="def">+120 защ</span><span class="pwr">мощь 400</span></div><div class="price">45 000<span>g</span></div><code>!купить клинок конца времён</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="name">Ржавый тесак</div><div class="stats"><span class="atk">+7 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 10</span></div><div class="price">🪙 200<span>g</span></div><code class="buy" data-buy="!купить ржавый тесак">!купить ржавый тесак</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="name">Меч наёмника</div><div class="stats"><span class="atk">+22 атк</span><span class="def">+9 защ</span><span class="pwr">мощь 31</span></div><div class="price">🪙 900<span>g</span></div><code class="buy" data-buy="!купить меч наёмника">!купить меч наёмника</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="name">Клинок бури</div><div class="stats"><span class="atk">+57 атк</span><span class="def">+24 защ</span><span class="pwr">мощь 81</span></div><div class="price">🪙 3 000<span>g</span></div><code class="buy" data-buy="!купить клинок бури">!купить клинок бури</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="name">Клинок метеоритной стали</div><div class="stats"><span class="atk">+128 атк</span><span class="def">+55 защ</span><span class="pwr">мощь 183</span></div><div class="price">🪙 11 000<span>g</span></div><code class="buy" data-buy="!купить клинок метеоритной стали">!купить клинок метеоритной стали</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="name">Клинок конца времён</div><div class="stats"><span class="atk">+280 атк</span><span class="def">+120 защ</span><span class="pwr">мощь 400</span></div><div class="price">🪙 45 000<span>g</span></div><code class="buy" data-buy="!купить клинок конца времён">!купить клинок конца времён</code></div>
                 </div>
             </article>
 
             <article class="slot">
-                <div class="slot-head"><h3>Шлем</h3><small>слот: голова</small></div>
+                <div class="slot-head"><h3>🪖 Шлем</h3><span class="slot-badge">Слот: Голова</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="name">Кожаный шлем</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+6 защ</span><span class="pwr">мощь 8</span></div><div class="price">150<span>g</span></div><code>!купить кожаный шлем</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="name">Шлем стражника</div><div class="stats"><span class="atk">+6 атк</span><span class="def">+17 защ</span><span class="pwr">мощь 23</span></div><div class="price">650<span>g</span></div><code>!купить шлем стражника</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="name">Шлем чемпиона</div><div class="stats"><span class="atk">+15 атк</span><span class="def">+45 защ</span><span class="pwr">мощь 60</span></div><div class="price">2 200<span>g</span></div><code>!купить шлем чемпиона</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="name">Корона стража цитадели</div><div class="stats"><span class="atk">+36 атк</span><span class="def">+106 защ</span><span class="pwr">мощь 142</span></div><div class="price">8 500<span>g</span></div><code>!купить корона стража цитадели</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="name">Венец забытого бога</div><div class="stats"><span class="atk">+73 атк</span><span class="def">+220 защ</span><span class="pwr">мощь 293</span></div><div class="price">33 000<span>g</span></div><code>!купить венец забытого бога</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="name">Кожаный шлем</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+6 защ</span><span class="pwr">мощь 8</span></div><div class="price">🪙 150<span>g</span></div><code class="buy" data-buy="!купить кожаный шлем">!купить кожаный шлем</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="name">Шлем стражника</div><div class="stats"><span class="atk">+6 атк</span><span class="def">+17 защ</span><span class="pwr">мощь 23</span></div><div class="price">🪙 650<span>g</span></div><code class="buy" data-buy="!купить шлем стражника">!купить шлем стражника</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="name">Шлем чемпиона</div><div class="stats"><span class="atk">+15 атк</span><span class="def">+45 защ</span><span class="pwr">мощь 60</span></div><div class="price">🪙 2 200<span>g</span></div><code class="buy" data-buy="!купить шлем чемпиона">!купить шлем чемпиона</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="name">Корона стража цитадели</div><div class="stats"><span class="atk">+36 атк</span><span class="def">+106 защ</span><span class="pwr">мощь 142</span></div><div class="price">🪙 8 500<span>g</span></div><code class="buy" data-buy="!купить корона стража цитадели">!купить корона стража цитадели</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="name">Венец забытого бога</div><div class="stats"><span class="atk">+73 атк</span><span class="def">+220 защ</span><span class="pwr">мощь 293</span></div><div class="price">🪙 33 000<span>g</span></div><code class="buy" data-buy="!купить венец забытого бога">!купить венец забытого бога</code></div>
                 </div>
             </article>
 
             <article class="slot">
-                <div class="slot-head"><h3>Броня</h3><small>слот: тело</small></div>
+                <div class="slot-head"><h3>🛡️ Броня</h3><span class="slot-badge">Слот: Тело</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="name">Стёганый жилет</div><div class="stats"><span class="atk">+1 атк</span><span class="def">+8 защ</span><span class="pwr">мощь 9</span></div><div class="price">180<span>g</span></div><code>!купить стёганый жилет</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="name">Кольчуга ополченца</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+22 защ</span><span class="pwr">мощь 26</span></div><div class="price">750<span>g</span></div><code>!купить кольчуга ополченца</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="name">Латы паладина</div><div class="stats"><span class="atk">+11 атк</span><span class="def">+59 защ</span><span class="pwr">мощь 70</span></div><div class="price">2 600<span>g</span></div><code>!купить латы паладина</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="name">Доспех «Несокрушимый»</div><div class="stats"><span class="atk">+24 атк</span><span class="def">+134 защ</span><span class="pwr">мощь 158</span></div><div class="price">9 500<span>g</span></div><code>!купить доспех «несокрушимый»</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="name">Доспех последнего рассвета</div><div class="stats"><span class="atk">+52 атк</span><span class="def">+295 защ</span><span class="pwr">мощь 347</span></div><div class="price">39 000<span>g</span></div><code>!купить доспех последнего рассвета</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="name">Стёганый жилет</div><div class="stats"><span class="atk">+1 атк</span><span class="def">+8 защ</span><span class="pwr">мощь 9</span></div><div class="price">🪙 180<span>g</span></div><code class="buy" data-buy="!купить стёганый жилет">!купить стёганый жилет</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="name">Кольчуга ополченца</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+22 защ</span><span class="pwr">мощь 26</span></div><div class="price">🪙 750<span>g</span></div><code class="buy" data-buy="!купить кольчуга ополченца">!купить кольчуга ополченца</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="name">Латы паладина</div><div class="stats"><span class="atk">+11 атк</span><span class="def">+59 защ</span><span class="pwr">мощь 70</span></div><div class="price">🪙 2 600<span>g</span></div><code class="buy" data-buy="!купить латы паладина">!купить латы паладина</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="name">Доспех «Несокрушимый»</div><div class="stats"><span class="atk">+24 атк</span><span class="def">+134 защ</span><span class="pwr">мощь 158</span></div><div class="price">🪙 9 500<span>g</span></div><code class="buy" data-buy="!купить доспех «несокрушимый»">!купить доспех «несокрушимый»</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="name">Доспех последнего рассвета</div><div class="stats"><span class="atk">+52 атк</span><span class="def">+295 защ</span><span class="pwr">мощь 347</span></div><div class="price">🪙 39 000<span>g</span></div><code class="buy" data-buy="!купить доспех последнего рассвета">!купить доспех последнего рассвета</code></div>
                 </div>
             </article>
 
             <article class="slot">
-                <div class="slot-head"><h3>Сапоги</h3><small>слот: ноги</small></div>
+                <div class="slot-head"><h3>👢 Сапоги</h3><span class="slot-badge">Слот: Ноги</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="name">Дырявые сапоги</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+4 защ</span><span class="pwr">мощь 6</span></div><div class="price">130<span>g</span></div><code>!купить дырявые сапоги</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="name">Поножи разведчика</div><div class="stats"><span class="atk">+7 атк</span><span class="def">+14 защ</span><span class="pwr">мощь 21</span></div><div class="price">600<span>g</span></div><code>!купить поножи разведчика</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="name">Сапоги горного тропа</div><div class="stats"><span class="atk">+18 атк</span><span class="def">+34 защ</span><span class="pwr">мощь 52</span></div><div class="price">1 900<span>g</span></div><code>!купить сапоги горного тропа</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="name">Поножи бегущего по льду</div><div class="stats"><span class="atk">+44 атк</span><span class="def">+81 защ</span><span class="pwr">мощь 125</span></div><div class="price">7 500<span>g</span></div><code>!купить поножи бегущего по льду</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="name">Сапоги вне времени</div><div class="stats"><span class="atk">+87 атк</span><span class="def">+162 защ</span><span class="pwr">мощь 249</span></div><div class="price">28 000<span>g</span></div><code>!купить сапоги вне времени</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="name">Дырявые сапоги</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+4 защ</span><span class="pwr">мощь 6</span></div><div class="price">🪙 130<span>g</span></div><code class="buy" data-buy="!купить дырявые сапоги">!купить дырявые сапоги</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="name">Поножи разведчика</div><div class="stats"><span class="atk">+7 атк</span><span class="def">+14 защ</span><span class="pwr">мощь 21</span></div><div class="price">🪙 600<span>g</span></div><code class="buy" data-buy="!купить поножи разведчика">!купить поножи разведчика</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="name">Сапоги горного тропа</div><div class="stats"><span class="atk">+18 атк</span><span class="def">+34 защ</span><span class="pwr">мощь 52</span></div><div class="price">🪙 1 900<span>g</span></div><code class="buy" data-buy="!купить сапоги горного тропа">!купить сапоги горного тропа</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="name">Поножи бегущего по льду</div><div class="stats"><span class="atk">+44 атк</span><span class="def">+81 защ</span><span class="pwr">мощь 125</span></div><div class="price">🪙 7 500<span>g</span></div><code class="buy" data-buy="!купить поножи бегущего по льду">!купить поножи бегущего по льду</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="name">Сапоги вне времени</div><div class="stats"><span class="atk">+87 атк</span><span class="def">+162 защ</span><span class="pwr">мощь 249</span></div><div class="price">🪙 28 000<span>g</span></div><code class="buy" data-buy="!купить сапоги вне времени">!купить сапоги вне времени</code></div>
                 </div>
             </article>
 
             <article class="slot">
-                <div class="slot-head"><h3>Амулет</h3><small>слот: амулет</small></div>
+                <div class="slot-head"><h3>📿 Амулет</h3><span class="slot-badge">Слот: Амулет</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="name">Медный оберег</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 7</span></div><div class="price">140<span>g</span></div><code>!купить медный оберег</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="name">Амулет странника</div><div class="stats"><span class="atk">+12 атк</span><span class="def">+12 защ</span><span class="pwr">мощь 24</span></div><div class="price">700<span>g</span></div><code>!купить амулет странника</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="name">Печать хранителя</div><div class="stats"><span class="atk">+31 атк</span><span class="def">+31 защ</span><span class="pwr">мощь 62</span></div><div class="price">2 300<span>g</span></div><code>!купить печать хранителя</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="name">Амулет драконьего пламени</div><div class="stats"><span class="atk">+71 атк</span><span class="def">+71 защ</span><span class="pwr">мощь 142</span></div><div class="price">8 500<span>g</span></div><code>!купить амулет драконьего пламени</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="name">Амулет последней надежды</div><div class="stats"><span class="atk">+156 атк</span><span class="def">+155 защ</span><span class="pwr">мощь 311</span></div><div class="price">35 000<span>g</span></div><code>!купить амулет последней надежды</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="name">Медный оберег</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 7</span></div><div class="price">🪙 140<span>g</span></div><code class="buy" data-buy="!купить медный оберег">!купить медный оберег</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="name">Амулет странника</div><div class="stats"><span class="atk">+12 атк</span><span class="def">+12 защ</span><span class="pwr">мощь 24</span></div><div class="price">🪙 700<span>g</span></div><code class="buy" data-buy="!купить амулет странника">!купить амулет странника</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="name">Печать хранителя</div><div class="stats"><span class="atk">+31 атк</span><span class="def">+31 защ</span><span class="pwr">мощь 62</span></div><div class="price">🪙 2 300<span>g</span></div><code class="buy" data-buy="!купить печать хранителя">!купить печать хранителя</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="name">Амулет драконьего пламени</div><div class="stats"><span class="atk">+71 атк</span><span class="def">+71 защ</span><span class="pwr">мощь 142</span></div><div class="price">🪙 8 500<span>g</span></div><code class="buy" data-buy="!купить амулет драконьего пламени">!купить амулет драконьего пламени</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="name">Амулет последней надежды</div><div class="stats"><span class="atk">+156 атк</span><span class="def">+155 защ</span><span class="pwr">мощь 311</span></div><div class="price">🪙 35 000<span>g</span></div><code class="buy" data-buy="!купить амулет последней надежды">!купить амулет последней надежды</code></div>
                 </div>
             </article>
         </section>
 
         <section id="consumables">
             <h2 class="sec-title">Расходники</h2>
-            <p class="sec-note">Цены ревизии 35. В поход можно взять до 3 расходников слота dungeon. Бинты и мазь действуют сразу. Зелье героя — только для рейда.</p>
+            <p class="sec-note">Цены ревизии 35. В поход можно взять до 3 расходников слота dungeon. Бинты и мазь действуют сразу. Зелье героя — только для рейда. «Амулет жизни» покупается как <b>!купить амулет жизни</b>, а не «амулет 3».</p>
             <div class="consumables">
                 <div class="card">
                     <div class="tier">100g · dungeon</div>
                     <div class="name">Факел</div>
                     <p class="effect">+10 п.п. к шансу добычи в этом походе. Базовый свет для новичков.</p>
-                    <div class="price">100<span>g</span></div>
-                    <code>!купить факел 3</code>
+                    <div class="price">🪙 100<span>g</span></div>
+                    <code class="buy" data-buy="!купить факел 3">!купить факел 3</code>
                 </div>
                 <div class="card">
                     <div class="tier">120g · сразу</div>
                     <div class="name">Бинты</div>
                     <p class="effect">Лечит 1 лёгкую или среднюю травму. Тяжёлую не снимает.</p>
-                    <div class="price">120<span>g</span></div>
-                    <code>!использовать бинты</code>
+                    <div class="price">🪙 120<span>g</span></div>
+                    <code class="buy" data-buy="!использовать бинты">!использовать бинты</code>
                 </div>
                 <div class="card">
                     <div class="tier">200g · dungeon</div>
                     <div class="name">Зелье удачи</div>
                     <p class="effect">+7 п.п. к шансу успеха в этом походе.</p>
-                    <div class="price">200<span>g</span></div>
-                    <code>!купить зелье удачи</code>
+                    <div class="price">🪙 200<span>g</span></div>
+                    <code class="buy" data-buy="!купить зелье удачи">!купить зелье удачи</code>
                 </div>
                 <div class="card">
                     <div class="tier">400g · dungeon</div>
                     <div class="name">Зелье силы</div>
                     <p class="effect">+30% мощи в этом походе.</p>
-                    <div class="price">400<span>g</span></div>
-                    <code>!купить зелье силы</code>
+                    <div class="price">🪙 400<span>g</span></div>
+                    <code class="buy" data-buy="!купить зелье силы">!купить зелье силы</code>
                 </div>
                 <div class="card">
                     <div class="tier">400g · сразу</div>
                     <div class="name">Целебная мазь</div>
                     <p class="effect">Снимает все травмы разом, включая тяжёлую.</p>
-                    <div class="price">400<span>g</span></div>
-                    <code>!купить мазь</code>
+                    <div class="price">🪙 400<span>g</span></div>
+                    <code class="buy" data-buy="!купить мазь">!купить мазь</code>
                 </div>
                 <div class="card">
                     <div class="tier">500g · dungeon / вторжение</div>
                     <div class="name">Оберег</div>
                     <p class="effect">В походе: при неудаче золото как за успех (травму и потерю предмета не отменяет). Во вторжении сгорает и глушит одну контратаку босса.</p>
-                    <div class="price">500<span>g</span></div>
-                    <code>!купить оберег</code>
+                    <div class="price">🪙 500<span>g</span></div>
+                    <code class="buy" data-buy="!купить оберег">!купить оберег</code>
                 </div>
                 <div class="card">
                     <div class="tier">600g · dungeon</div>
                     <div class="name">Отмычки</div>
                     <p class="effect">×2 шанс найти тайник. Помогают и на ловушках.</p>
-                    <div class="price">600<span>g</span></div>
-                    <code>!купить отмычки</code>
+                    <div class="price">🪙 600<span>g</span></div>
+                    <code class="buy" data-buy="!купить отмычки">!купить отмычки</code>
                 </div>
                 <div class="card">
                     <div class="tier">1500g · dungeon</div>
                     <div class="name">Амулет жизни</div>
                     <p class="effect">Сгорает вместо гибели. Это спасение от смерти, не оберег от контратаки.</p>
-                    <div class="price">1 500<span>g</span></div>
-                    <code>!купить амулет жизни</code>
+                    <div class="price">🪙 1 500<span>g</span></div>
+                    <code class="buy" data-buy="!купить амулет жизни">!купить амулет жизни</code>
                 </div>
                 <div class="card">
                     <div class="tier">1500g · рейд</div>
                     <div class="name">Зелье героя</div>
                     <p class="effect">+60% мощи в рейде. Комплексный боевой бафф отряда.</p>
-                    <div class="price">1 500<span>g</span></div>
-                    <code>!купить зелье героя</code>
+                    <div class="price">🪙 1 500<span>g</span></div>
+                    <code class="buy" data-buy="!купить зелье героя">!купить зелье героя</code>
                 </div>
             </div>
         </section>
 
         <section id="commands">
             <h2 class="sec-title">Команды чата</h2>
-            <p class="sec-note">Имена можно писать с пробелом или через подчёркивание. Несколько расходников — в одной строке.</p>
+            <p class="sec-note">Имена можно писать с пробелом или через подчёркивание. Несколько расходников — в одной строке. Во время вторжения босса второстепенные команды молчат: бейте <b>!атака</b> и <b>!защита</b>.</p>
             <div class="commands">
-                <div class="cmd"><h3>Каталог</h3><code>!магазин</code><code>!магазин расходники</code></div>
-                <div class="cmd"><h3>Купить расходник</h3><code>!купить факел 3</code><code>!купить бинты 2 зелье удачи</code></div>
-                <div class="cmd"><h3>Купить шмот</h3><code>!купить меч наёмника</code><code>!купить шлем чемпиона</code></div>
-                <div class="cmd"><h3>Использовать</h3><code>!использовать бинты</code><code>!использовать факел</code></div>
+                <div class="cmd"><h3>Каталог</h3><code class="buy" data-buy="!магазин">!магазин</code><code class="buy" data-buy="!магазин расходники">!магазин расходники</code></div>
+                <div class="cmd"><h3>Купить расходник</h3><code class="buy" data-buy="!купить факел 3">!купить факел 3</code><code class="buy" data-buy="!купить бинты 2 зелье удачи">!купить бинты 2 зелье удачи</code></div>
+                <div class="cmd"><h3>Купить шмот</h3><code class="buy" data-buy="!купить меч наёмника">!купить меч наёмника</code><code class="buy" data-buy="!купить шлем чемпиона">!купить шлем чемпиона</code><code class="buy" data-buy="!купить меч 2">!купить меч 2</code></div>
+                <div class="cmd"><h3>Использовать</h3><code class="buy" data-buy="!использовать бинты">!использовать бинты</code><code class="buy" data-buy="!использовать факел">!использовать факел</code></div>
+                <div class="cmd"><h3>Герой</h3><code class="buy" data-buy="!профиль">!профиль</code><code class="buy" data-buy="!профиль фулл">!профиль фулл</code><code class="buy" data-buy="!поход пещера">!поход пещера</code></div>
             </div>
         </section>
 
         <footer>
             Мощь предмета = атака + защита. Автопродажа старого шмота в слоте — 40% его цены.
             Слота «щит» в игре нет: защита сидит в шлеме, броне и сапогах.
-            Цены и эффекты сверены с движком (ревизия 41). Покупка только во время трансляции.
+            Цены и эффекты сверены с движком (ревизия 43). Покупка только во время трансляции.
+            Живая витрина: https://dantesdima-hub.github.io/rpg-shop/
         </footer>
     </div>
+    <script>
+        (function () {
+            var tabs = document.querySelectorAll('.tabs button');
+            var sections = {
+                gear: document.getElementById('gear'),
+                consumables: document.getElementById('consumables'),
+                commands: document.getElementById('commands')
+            };
+            function activate(id) {
+                var key;
+                for (key in sections) {
+                    if (!sections[key]) continue;
+                    sections[key].classList.toggle('active', key === id);
+                }
+                for (var i = 0; i < tabs.length; i++) {
+                    var on = tabs[i].getAttribute('data-tab') === id;
+                    tabs[i].classList.toggle('active', on);
+                    tabs[i].setAttribute('aria-selected', on ? 'true' : 'false');
+                }
+            }
+            for (var t = 0; t < tabs.length; t++) {
+                tabs[t].addEventListener('click', function (ev) {
+                    activate(ev.currentTarget.getAttribute('data-tab'));
+                });
+            }
+            document.addEventListener('click', function (e) {
+                var el = e.target;
+                while (el && el !== document && !(el.getAttribute && el.getAttribute('data-buy'))) {
+                    el = el.parentNode;
+                }
+                if (!el || el === document) return;
+                var text = el.getAttribute('data-buy');
+                if (!text) return;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text);
+                }
+                el.classList.add('copied');
+                window.setTimeout(function () { el.classList.remove('copied'); }, 1200);
+            });
+        })();
+    </script>
 </body>
 </html>
