@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!--
+[SYNC PROTOCOL]: Любые изменения баланса, механик команд, цен предметов, коэффициентов боссов или формул в кодовой базе Lootbox.cs ОБЯЗАНЫ одновременно отражаться в разделах «Экипировка», «Расходники», «Команды» и «Гайд» файлов overlay/index.html и overlay/shop.html.
+-->
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -52,9 +55,10 @@
             max-width: 52ch; color: var(--muted); margin: 10px auto 0;
             font-size: 15px; line-height: 1.5;
         }
+        html, body { overflow-x: hidden; }
         .tabs {
             display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-            margin: 22px auto 8px; max-width: 720px;
+            margin: 22px auto 8px; max-width: 980px;
         }
         .tabs button {
             appearance: none; cursor: pointer;
@@ -159,7 +163,33 @@
             background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
             padding: 14px; box-shadow: var(--shadow);
         }
-        .cmd h3 { font-size: 14px; margin-bottom: 8px; color: var(--gold); }
+        .cmd h3 { font-size: 15px; margin-bottom: 6px; color: var(--gold); }
+        .cmd-desc { color: var(--muted); font-size: 13.5px; line-height: 1.45; min-height: 0; }
+        .alias {
+            display: inline-flex; margin-top: 8px; margin-right: 6px;
+            font-size: 11px; font-weight: 700; color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 999px;
+            padding: 2px 8px; background: rgba(12, 10, 18, 0.45);
+        }
+        .guide-block {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
+            padding: 4px 16px 12px; margin: 0 0 14px; box-shadow: var(--shadow);
+        }
+        .guide-block + .guide-block {
+            border-top: none;
+        }
+        .guide-block summary {
+            cursor: pointer; list-style: none; font-size: 18px; font-weight: 800;
+            padding: 14px 0; color: var(--ink);
+        }
+        .guide-block summary::-webkit-details-marker { display: none; }
+        .guide-block summary:after {
+            content: "▾"; float: right; color: var(--gold); font-weight: 700;
+        }
+        .guide-block[open] summary:after { content: "▴"; }
+        .guide-block ul { margin: 0 0 8px 1.1em; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+        .guide-block li { margin: 0 0 8px; }
+        .guide-block strong { color: var(--ink); font-weight: 700; }
         footer {
             margin-top: 40px; color: var(--muted); font-size: 13px; line-height: 1.5;
             border-top: 1px solid rgba(232, 200, 114, 0.14); padding-top: 16px;
@@ -169,7 +199,7 @@
         }
         @media (max-width: 700px) {
             .row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .tabs button { width: 100%; }
+            .tabs button { flex: 1 1 calc(50% - 10px); }
         }
         @media (max-width: 480px) {
             .wrap { width: min(100%, calc(100% - 20px)); }
@@ -189,6 +219,7 @@
             <button type="button" class="active" data-tab="gear" role="tab" aria-selected="true">⚔️ Экипировка</button>
             <button type="button" data-tab="consumables" role="tab" aria-selected="false">🧪 Расходники</button>
             <button type="button" data-tab="commands" role="tab" aria-selected="false">📜 Команды</button>
+            <button type="button" data-tab="guide" role="tab" aria-selected="false">📖 Гайд</button>
         </nav>
 
         <section id="gear" class="active">
@@ -323,20 +354,168 @@
 
         <section id="commands">
             <h2 class="sec-title">Команды чата</h2>
-            <p class="sec-note">Имена можно писать с пробелом или через подчёркивание. Несколько расходников — в одной строке. Во время вторжения босса второстепенные команды молчат: бейте <b>!атака</b> и <b>!защита</b>.</p>
-            <div class="commands">
-                <div class="cmd"><h3>Каталог</h3><code class="buy" data-buy="!магазин">!магазин</code><code class="buy" data-buy="!магазин расходники">!магазин расходники</code></div>
-                <div class="cmd"><h3>Купить расходник</h3><code class="buy" data-buy="!купить факел 3">!купить факел 3</code><code class="buy" data-buy="!купить бинты 2 зелье удачи">!купить бинты 2 зелье удачи</code></div>
-                <div class="cmd"><h3>Купить шмот</h3><code class="buy" data-buy="!купить меч наёмника">!купить меч наёмника</code><code class="buy" data-buy="!купить шлем чемпиона">!купить шлем чемпиона</code><code class="buy" data-buy="!купить меч 2">!купить меч 2</code></div>
-                <div class="cmd"><h3>Использовать</h3><code class="buy" data-buy="!использовать бинты">!использовать бинты</code><code class="buy" data-buy="!использовать факел">!использовать факел</code></div>
-                <div class="cmd"><h3>Герой</h3><code class="buy" data-buy="!профиль">!профиль</code><code class="buy" data-buy="!профиль фулл">!профиль фулл</code><code class="buy" data-buy="!поход пещера">!поход пещера</code></div>
-            </div>
+            <p class="sec-note">Клик по жёлтой команде копирует её в буфер. Имена пишутся с пробелом или через подчёркивание. Во время вторжения босса <b>!топ</b>, <b>!магазин</b>, <b>!задание</b>, <b>!карт</b> и <b>!рыбалка</b> молчат — бейте <b>!атака</b> и <b>!защита</b>.</p>
+
+            <article class="slot">
+                <div class="slot-head"><h3>⚔️ Походы и развитие</h3><span class="slot-badge">Соло</span></div>
+                <div class="commands">
+                    <div class="cmd">
+                        <h3>!поход [название]</h3>
+                        <p class="cmd-desc">Отправиться в подземелье. Ключи: пещера, шахта, склеп, чаща, цитадель, храм, бездна, разлом. Без аргумента — список с шансом.</p>
+                        <span class="alias">!походы</span><span class="alias">!dungeon</span>
+                        <code class="buy" data-buy="!поход пещера">!поход пещера</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!профиль</h3>
+                        <p class="cmd-desc">Однострочная сводка: ранг, мощь, средний тир, золото, сумка, травмы/эффекты.</p>
+                        <span class="alias">!profile</span>
+                        <code class="buy" data-buy="!профиль">!профиль</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!профиль full</h3>
+                        <p class="cmd-desc">Детальный осмотр всех слотов экипировки, статистика, долг и титулы.</p>
+                        <span class="alias">!профиль фулл</span><span class="alias">!профиль 2</span>
+                        <code class="buy" data-buy="!профиль full">!профиль full</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!использовать &lt;предмет&gt;</h3>
+                        <p class="cmd-desc">Применить расходник из сумки: бинты и мазь сразу, зелья и факел — заряд на поход (до 3 штук).</p>
+                        <span class="alias">!use</span><span class="alias">!юз</span>
+                        <code class="buy" data-buy="!использовать бинты">!использовать бинты</code>
+                    </div>
+                </div>
+            </article>
+
+            <article class="slot">
+                <div class="slot-head"><h3>🪙 Торговля и экономика</h3><span class="slot-badge">Магазин</span></div>
+                <div class="commands">
+                    <div class="cmd">
+                        <h3>!магазин</h3>
+                        <p class="cmd-desc">Ссылка на этот каталог экипировки T1–T5 и подсказка <b>!купить слот тир</b>.</p>
+                        <span class="alias">!shop</span>
+                        <code class="buy" data-buy="!магазин">!магазин</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!магазин расходники</h3>
+                        <p class="cmd-desc">Ссылка на прайс расходников (факел, бинты, зелья, амулет жизни).</p>
+                        <code class="buy" data-buy="!магазин расходники">!магазин расходники</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!купить &lt;слот&gt; &lt;тир&gt;</h3>
+                        <p class="cmd-desc">Покупка экипировки по слоту и тиру 1–5. Старый шмот в слоте продаётся за 40%. Пример: амулет 3 — это T3 слота, не три «амулета жизни».</p>
+                        <code class="buy" data-buy="!купить меч 2">!купить меч 2</code>
+                        <code class="buy" data-buy="!купить амулет 3">!купить амулет 3</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!купить &lt;расходник&gt; [шт]</h3>
+                        <p class="cmd-desc">Покупка припасов. Несколько позиций в одной строке. «Амулет жизни» пишется полностью.</p>
+                        <code class="buy" data-buy="!купить факел 3">!купить факел 3</code>
+                        <code class="buy" data-buy="!купить амулет жизни 1">!купить амулет жизни 1</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!передать @ник &lt;сумма&gt;</h3>
+                        <p class="cmd-desc">Перевод золота другому зрителю. Комиссия 10% сжигается (антиинфляция). Минимум 1g.</p>
+                        <span class="alias">!pay</span><span class="alias">!give</span>
+                        <code class="buy" data-buy="!передать @ник 100">!передать @ник 100</code>
+                    </div>
+                </div>
+            </article>
+
+            <article class="slot">
+                <div class="slot-head"><h3>🐉 Вторжения (боссы)</h3><span class="slot-badge">Отряд</span></div>
+                <div class="commands">
+                    <div class="cmd">
+                        <h3>!босс</h3>
+                        <p class="cmd-desc">Текущее состояние вторжения: HP, броня, щиты отряда и фаза (броня / открыт / агония).</p>
+                        <code class="buy" data-buy="!босс">!босс</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!атака</h3>
+                        <p class="cmd-desc">Удар по боссу. Урон от вашей мощи. Есть риск контратаки: травма, кража золота, стан, вампиризм.</p>
+                        <span class="alias">!hit</span><span class="alias">!бей</span><span class="alias">!attack</span>
+                        <code class="buy" data-buy="!атака">!атака</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!защита</h3>
+                        <p class="cmd-desc">Поднять щит отряда. Щиты сгорают вместо контратаки (глушат оглушение, кражу золота и вампиризм).</p>
+                        <span class="alias">!щит</span><span class="alias">!блок</span>
+                        <code class="buy" data-buy="!защита">!защита</code>
+                    </div>
+                </div>
+            </article>
+
+            <article class="slot">
+                <div class="slot-head"><h3>🏆 Рейтинги и прочее</h3><span class="slot-badge">Инфо</span></div>
+                <div class="commands">
+                    <div class="cmd">
+                        <h3>!топ</h3>
+                        <p class="cmd-desc">Топ-3 по мощи в одну строку. Полный зал славы — эта страница. Во время вторжения команда молчит.</p>
+                        <span class="alias">!рейтинг</span><span class="alias">!рпгтоп</span>
+                        <code class="buy" data-buy="!топ">!топ</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!дуэль @ник &lt;ставка&gt;</h3>
+                        <p class="cmd-desc">Вызов другого игрока на золото. Соперник принимает через <b>!принять</b>.</p>
+                        <code class="buy" data-buy="!дуэль @ник 50">!дуэль @ник 50</code>
+                        <code class="buy" data-buy="!принять">!принять</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!задание</h3>
+                        <p class="cmd-desc">Текущая цепочка квестов сессии (до трёх заданий в эфир). Во время вторжения молчит.</p>
+                        <span class="alias">!квесты</span><span class="alias">!quest</span>
+                        <code class="buy" data-buy="!задание">!задание</code>
+                    </div>
+                    <div class="cmd">
+                        <h3>!карт / !рыбалка</h3>
+                        <p class="cmd-desc">Дополнительные активности. Если команда ещё не открыта — чат молчит; во время вторжения действует combat-focus.</p>
+                        <code class="buy" data-buy="!карт">!карт</code>
+                        <code class="buy" data-buy="!рыбалка">!рыбалка</code>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="guide">
+            <h2 class="sec-title">Гайд по механике</h2>
+            <p class="sec-note">Сверка с <b>Lootbox.cs</b> (ревизия 43). Цифры ниже — живые константы движка, не набросок. Раскройте блок.</p>
+
+            <details class="guide-block" open>
+                <summary>Основы выживания и походы</summary>
+                <ul>
+                    <li><strong>Шанс успеха.</strong> Считается от соотношения вашей суммарной мощи (атака + защита экипировки, плюс бонусы наборов и зелий) к порогу данжа. Формула мягкая: чем ближе мощь к порогу, тем ближе шанс к середине диапазона. Пол — 1%, потолок — 90%.</li>
+                    <li><strong>Защита новичков.</strong> Если шанс ≤ 15%, вход закрыт («слишком опасно»). <strong>Пещера всегда открыта</strong>, даже с нулевой мощью — это стартовый данж.</li>
+                    <li><strong>Лестница данжей:</strong> пещера → шахта → склеп → чаща → цитадель → храм → бездна → разлом. Катакомб в игре нет.</li>
+                    <li><strong>Травмы.</strong> Лёгкая / средняя / тяжёлая удлиняют кулдаун похода (+10 / +20 / +50 мин, потолок 120). Бинты снимают одну лёгкую или среднюю. Мазь снимает все, включая тяжёлую. Тяжёлая режет мощь.</li>
+                    <li><strong>Гибель.</strong> Золото и расходники обнуляются, до трёх слотов экипировки пропадают, коллекция добычи остаётся. Кулдаун похода + висящий долг. Амулет жизни сгорает вместо смерти.</li>
+                    <li><strong>Автопродажа.</strong> Покупка нового предмета в занятый слот сдаёт старый торговцу за <strong>40%</strong> номинала. Золото сразу на баланс.</li>
+                </ul>
+            </details>
+
+            <details class="guide-block">
+                <summary>Боссы и командные рейды</summary>
+                <ul>
+                    <li><strong>HP босса</strong> считается только от игроков, которые жали РПГ-команды за последние <strong>25 минут</strong> (не от всего чата). Формула: коэффициент босса × сумма их мощи без штрафа травмы.</li>
+                    <li><strong>Фаза брони.</strong> На спавне босс получает броню = 25% HP. Пока броня жива, входящий урон режется на 20% (множитель 0.8) и сначала сбивает броню. Сбили — прямой урон в здоровье.</li>
+                    <li><strong>Контратаки и щиты.</strong> После <b>!атака</b> босс может ответить (стандартный шанс 25%, зависит от стойки). <b>!защита</b> кладёт щит отряда: щит сгорает вместо контратаки и глушит оглушение, кражу золота и вампиризм. Оберег из сумки тоже глушит одну контратаку, но это личный расходник, не щит отряда.</li>
+                    <li><strong>Фаза Агонии.</strong> Когда HP падает ниже <strong>15%</strong>, включается таймер <strong>90 секунд</strong> и награда за добивание удваивается (×2 пул). Не добили — босс уходит с утешительным золотом участникам.</li>
+                    <li><strong>Рейд</strong> — отдельная механика стримера: <b>!рейд</b> / <b>!в_бой</b> / <b>!рейд_бой</b>. Это не вторжение. Ткач Тишины живёт только в рейдах.</li>
+                </ul>
+            </details>
+
+            <details class="guide-block">
+                <summary>Экономика и налоги</summary>
+                <ul>
+                    <li><strong>Комиссия переводов 10%.</strong> <b>!передать @ник сумма</b> сжигает 10% (алиасы !pay / !give). Это сток против инфляции, не налог в карман стримера. Минимум перевода — 1g, потолка суммы нет.</li>
+                    <li><strong>Долг.</strong> Некоторые исходы похода вешают долг. Он <em>никогда не блокирует вход</em>. При следующем походе часть гасится из золота после оплаты входа, остаток — из награды этого похода. Гибель обнуляет золото, но долг переживает смерть.</li>
+                    <li><strong>Кулдаун похода</strong> — 50 минут эфира плюс минуты травм. Технический пол между походами — 30 секунд.</li>
+                </ul>
+            </details>
         </section>
 
         <footer>
             Мощь предмета = атака + защита. Автопродажа старого шмота в слоте — 40% его цены.
             Слота «щит» в игре нет: защита сидит в шлеме, броне и сапогах.
-            Цены и эффекты сверены с движком (ревизия 43). Покупка только во время трансляции.
+            Цены, команды и формулы сверены с движком (ревизия 44). Покупка только во время трансляции.
             Живая витрина: https://dantesdima-hub.github.io/rpg-shop/
         </footer>
     </div>
@@ -346,7 +525,8 @@
             var sections = {
                 gear: document.getElementById('gear'),
                 consumables: document.getElementById('consumables'),
-                commands: document.getElementById('commands')
+                commands: document.getElementById('commands'),
+                guide: document.getElementById('guide')
             };
             function activate(id) {
                 var key;
