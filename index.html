@@ -171,25 +171,63 @@
             border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 999px;
             padding: 2px 8px; background: rgba(12, 10, 18, 0.45);
         }
-        .guide-block {
-            background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
-            padding: 4px 16px 12px; margin: 0 0 14px; box-shadow: var(--shadow);
+        .guide-steps { display: grid; gap: 14px; }
+        .step {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 18px;
+            padding: 16px; box-shadow: var(--shadow);
+            display: grid; grid-template-columns: auto 1fr; gap: 12px 14px; align-items: start;
         }
-        .guide-block + .guide-block {
-            border-top: none;
+        .step-num {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px; color: #1a1408;
+            background: linear-gradient(180deg, #f3d789, #c9a227);
+            box-shadow: var(--glow); flex-shrink: 0;
         }
-        .guide-block summary {
-            cursor: pointer; list-style: none; font-size: 18px; font-weight: 800;
-            padding: 14px 0; color: var(--ink);
+        .step-body { min-width: 0; }
+        .step-kicker {
+            font-size: 12px; font-weight: 800; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
         }
-        .guide-block summary::-webkit-details-marker { display: none; }
-        .guide-block summary:after {
-            content: "▾"; float: right; color: var(--gold); font-weight: 700;
+        .step h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; line-height: 1.25; }
+        .step p, .tips p { color: var(--muted); font-size: 14.5px; line-height: 1.55; margin-bottom: 8px; }
+        .step strong, .tips strong { color: var(--ink); font-weight: 700; }
+        .step .buy, .tips .buy, .role .buy {
+            display: inline-block; margin: 4px 8px 10px 0; width: auto;
         }
-        .guide-block[open] summary:after { content: "▴"; }
-        .guide-block ul { margin: 0 0 8px 1.1em; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
-        .guide-block li { margin: 0 0 8px; }
-        .guide-block strong { color: var(--ink); font-weight: 700; }
+        .chain { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+        .chain span {
+            font-size: 12px; font-weight: 700; color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.4); background: rgba(12, 10, 18, 0.45);
+            border-radius: 999px; padding: 4px 10px;
+        }
+        .roles {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px; margin: 8px 0 12px;
+        }
+        .role {
+            background: rgba(12, 10, 18, 0.45); border: 1px solid var(--stroke);
+            border-radius: 12px; padding: 10px 12px;
+        }
+        .role h4 { font-size: 14px; color: var(--gold); margin-bottom: 4px; }
+        .role p { font-size: 13.5px; margin: 0 0 6px; }
+        .step details { margin-top: 2px; }
+        .step summary {
+            cursor: pointer; list-style: none; font-size: 13.5px; font-weight: 700;
+            color: var(--gold); padding: 6px 0;
+        }
+        .step summary::-webkit-details-marker { display: none; }
+        .step summary:after { content: " ▾"; }
+        .step details[open] summary:after { content: " ▴"; }
+        .step details ul, .tips ul {
+            margin: 0 0 8px 1.1em; color: var(--muted); font-size: 13.5px; line-height: 1.5;
+        }
+        .step details li, .tips li { margin: 0 0 6px; }
+        .tips {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 18px;
+            padding: 16px; box-shadow: var(--shadow);
+        }
+        .tips h3 { font-size: 18px; margin-bottom: 10px; }
         footer {
             margin-top: 40px; color: var(--muted); font-size: 13px; line-height: 1.5;
             border-top: 1px solid rgba(232, 200, 114, 0.14); padding-top: 16px;
@@ -204,6 +242,7 @@
         @media (max-width: 480px) {
             .wrap { width: min(100%, calc(100% - 20px)); }
             .row { grid-template-columns: 1fr; }
+            .step { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -476,46 +515,140 @@
         </section>
 
         <section id="guide">
-            <h2 class="sec-title">Гайд по механике</h2>
-            <p class="sec-note">Сверка с <b>Lootbox.cs</b> (ревизия 43). Цифры ниже — живые константы движка, не набросок. Раскройте блок.</p>
+            <h2 class="sec-title">Гайд для новичка</h2>
+            <p class="sec-note">Пошаговое руководство: от создания персонажа и первых походов до рейдов на великих боссов.</p>
 
-            <details class="guide-block" open>
-                <summary>Основы выживания и походы</summary>
-                <ul>
-                    <li><strong>Шанс успеха.</strong> Считается от соотношения вашей суммарной мощи (атака + защита экипировки, плюс бонусы наборов и зелий) к порогу данжа. Формула мягкая: чем ближе мощь к порогу, тем ближе шанс к середине диапазона. Пол — 1%, потолок — 90%.</li>
-                    <li><strong>Защита новичков.</strong> Если шанс ≤ 15%, вход закрыт («слишком опасно»). <strong>Пещера всегда открыта</strong>, даже с нулевой мощью — это стартовый данж.</li>
-                    <li><strong>Лестница данжей:</strong> пещера → шахта → склеп → чаща → цитадель → храм → бездна → разлом. Катакомб в игре нет.</li>
-                    <li><strong>Травмы.</strong> Лёгкая / средняя / тяжёлая удлиняют кулдаун похода (+10 / +20 / +50 мин, потолок 120). Бинты снимают одну лёгкую или среднюю. Мазь снимает все, включая тяжёлую. Тяжёлая режет мощь.</li>
-                    <li><strong>Гибель.</strong> Золото и расходники обнуляются, до трёх слотов экипировки пропадают, коллекция добычи остаётся. Кулдаун похода + висящий долг. Амулет жизни сгорает вместо смерти.</li>
-                    <li><strong>Автопродажа.</strong> Покупка нового предмета в занятый слот сдаёт старый торговцу за <strong>40%</strong> номинала. Золото сразу на баланс.</li>
-                </ul>
-            </details>
+            <div class="guide-steps">
+                <article class="step">
+                    <div class="step-num" aria-hidden="true">1</div>
+                    <div class="step-body">
+                        <div class="step-kicker">👤 Этап 1</div>
+                        <h3>Создание героя и первый осмотр</h3>
+                        <p><strong>Что делать:</strong> напиши в чате стрима команду ниже.</p>
+                        <code class="buy" data-buy="!профиль">!профиль</code>
+                        <p>Игра сама создаст персонажа с базовым снаряжением T1 за 0g. Сразу увидишь баланс, ранг, мощь и вместимость сумки.</p>
+                        <details>
+                            <summary>Подсказка</summary>
+                            <ul>
+                                <li>Полный осмотр всех слотов — <b>!профиль full</b> или <b>!профиль 2</b>.</li>
+                                <li>Герой появляется в момент первой игровой команды. Отдельно регистрироваться не нужно.</li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
 
-            <details class="guide-block">
-                <summary>Боссы и командные рейды</summary>
-                <ul>
-                    <li><strong>HP босса</strong> считается только от игроков, которые жали РПГ-команды за последние <strong>25 минут</strong> (не от всего чата). Формула: коэффициент босса × сумма их мощи без штрафа травмы.</li>
-                    <li><strong>Фаза брони.</strong> На спавне босс получает броню = 25% HP. Пока броня жива, входящий урон режется на 20% (множитель 0.8) и сначала сбивает броню. Сбили — прямой урон в здоровье.</li>
-                    <li><strong>Контратаки и щиты.</strong> После <b>!атака</b> босс может ответить (стандартный шанс 25%, зависит от стойки). <b>!защита</b> кладёт щит отряда: щит сгорает вместо контратаки и глушит оглушение, кражу золота и вампиризм. Оберег из сумки тоже глушит одну контратаку, но это личный расходник, не щит отряда.</li>
-                    <li><strong>Фаза Агонии.</strong> Когда HP падает ниже <strong>15%</strong>, включается таймер <strong>90 секунд</strong> и награда за добивание удваивается (×2 пул). Не добили — босс уходит с утешительным золотом участникам.</li>
-                    <li><strong>Рейд</strong> — отдельная механика стримера: <b>!рейд</b> / <b>!в_бой</b> / <b>!рейд_бой</b>. Это не вторжение. Ткач Тишины живёт только в рейдах.</li>
-                </ul>
-            </details>
+                <article class="step">
+                    <div class="step-num" aria-hidden="true">2</div>
+                    <div class="step-body">
+                        <div class="step-kicker">🕯️ Этап 2</div>
+                        <h3>Первые деньги — поход в Пещеру</h3>
+                        <p><strong>Что делать:</strong> отправь команду ниже.</p>
+                        <code class="buy" data-buy="!поход пещера">!поход пещера</code>
+                        <p><strong>Почему именно туда:</strong> Пещера всегда открыта. Это стартовая тренировочная локация: вход бесплатный и безопасный, риск гибели сведён к минимуму.</p>
+                        <p><strong>Награда:</strong> за успешную зачистку придёт первое золото и лут в сумку. Повторяй вылазки, чтобы накопить стартовый капитал.</p>
+                        <details>
+                            <summary>Подсказка</summary>
+                            <ul>
+                                <li>Между походами есть пауза стрима (около 50 минут плюс травмы). Не спамь команду — подожди кулдаун.</li>
+                                <li>Без названия данжа <b>!поход</b> покажет список с твоим шансом.</li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
 
-            <details class="guide-block">
-                <summary>Экономика и налоги</summary>
-                <ul>
-                    <li><strong>Комиссия переводов 10%.</strong> <b>!передать @ник сумма</b> сжигает 10% (алиасы !pay / !give). Это сток против инфляции, не налог в карман стримера. Минимум перевода — 1g, потолка суммы нет.</li>
-                    <li><strong>Долг.</strong> Некоторые исходы похода вешают долг. Он <em>никогда не блокирует вход</em>. При следующем походе часть гасится из золота после оплаты входа, остаток — из награды этого похода. Гибель обнуляет золото, но долг переживает смерть.</li>
-                    <li><strong>Кулдаун похода</strong> — 50 минут эфира плюс минуты травм. Технический пол между походами — 30 секунд.</li>
-                </ul>
-            </details>
+                <article class="step">
+                    <div class="step-num" aria-hidden="true">3</div>
+                    <div class="step-body">
+                        <div class="step-kicker">⚔️ Этап 3</div>
+                        <h3>Первая экипировка и автопродажа</h3>
+                        <p><strong>Что делать:</strong> когда накопишь золото, открой вкладку «Экипировка» и купи обновление оружия или брони.</p>
+                        <code class="buy" data-buy="!купить меч 2">!купить меч 2</code>
+                        <code class="buy" data-buy="!купить шлем 2">!купить шлем 2</code>
+                        <p><strong>Фишка автопродажи:</strong> старый предмет в слоте <strong>автоматически продаётся торговцу за 40%</strong> своей цены — золото сразу возвращается на баланс. Вручную ничего сдавать не нужно.</p>
+                        <p><strong>Припасы:</strong> купи бинты, чтобы быстро снимать лёгкие травмы после опасных походов.</p>
+                        <code class="buy" data-buy="!купить бинты 1">!купить бинты 1</code>
+                        <details>
+                            <summary>Подсказка</summary>
+                            <ul>
+                                <li>Бинты стоят 120g. Применить из сумки: <b>!использовать бинты</b> (алиас <b>!юз</b>).</li>
+                                <li>Слота «щит» нет: защита сидит в шлеме, броне и сапогах.</li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
+
+                <article class="step">
+                    <div class="step-num" aria-hidden="true">4</div>
+                    <div class="step-body">
+                        <div class="step-kicker">🗺️ Этап 4</div>
+                        <h3>Продвижение по опасным подземельям</h3>
+                        <p><strong>Цепочка подземелий:</strong></p>
+                        <div class="chain">
+                            <span>Пещера</span><span>Шахта</span><span>Склеп</span><span>Чаща</span>
+                            <span>Цитадель</span><span>Храм</span><span>Бездна</span><span>Разлом</span>
+                        </div>
+                        <p><strong>Защита новичка:</strong> если твоей мощи (атака + защита) недостаточно и шанс выжить ≤ <strong>15%</strong>, стражники не пустят в данж. Это защита от случайного суицида.</p>
+                        <p><strong>Что происходит при гибели:</strong> золото из кошелька и добыча в сумке сгорают, персонаж получает кулдаун на походы. Перед штурмом хай-энд данжей запасайся оберегом или амулетом жизни.</p>
+                        <code class="buy" data-buy="!купить оберег 1">!купить оберег 1</code>
+                        <code class="buy" data-buy="!купить амулет жизни 1">!купить амулет жизни 1</code>
+                        <details>
+                            <summary>Подсказка</summary>
+                            <ul>
+                                <li>Пещера — единственный данж без порога 15%. Дальше лестница: шахта → склеп → чаща → цитадель → храм → бездна → разлом.</li>
+                                <li>Амулет жизни сгорает вместо смерти. Оберег спасает золото при неудаче похода, но не отменяет травму.</li>
+                                <li>Долг с неудачных вылазок гасится из следующих наград и <em>никогда не блокирует вход</em>.</li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
+
+                <article class="step">
+                    <div class="step-num" aria-hidden="true">5</div>
+                    <div class="step-body">
+                        <div class="step-kicker">🐉 Этап 5</div>
+                        <h3>Битвы с Боссами (Командные Вторжения)</h3>
+                        <p><strong>Когда спавнится босс:</strong> на стриме появляется оверлей, чат объявляет боевую тревогу. Здоровье босса подстраивается только под тех, кто играл за последние <strong>25 минут</strong>.</p>
+                        <p><strong>Две роли в бою:</strong></p>
+                        <div class="roles">
+                            <div class="role">
+                                <h4>⚔️ !атака</h4>
+                                <p>Нанести урон боссу. Осторожно: босс может контратаковать, наложить стан или украсть золото.</p>
+                                <code class="buy" data-buy="!атака">!атака</code>
+                            </div>
+                            <div class="role">
+                                <h4>🛡️ !защита</h4>
+                                <p>Поднять командный щит. Щиты поглощают контратаки и спасают атакующих. Защитники получают долю золота при победе наравне с бойцами.</p>
+                                <code class="buy" data-buy="!защита">!защита</code>
+                            </div>
+                        </div>
+                        <p><strong>Фаза Агонии:</strong> когда здоровье босса падает ниже <strong>15%</strong>, включается таймер на <strong>90 секунд</strong>, а награда за добивание удваивается (×2). Не упусти момент.</p>
+                        <details>
+                            <summary>Подсказка</summary>
+                            <ul>
+                                <li>Сначала сбейте броню босса: пока она жива, входящий урон режется. Статус — <b>!босс</b>.</li>
+                                <li>Во время вторжения витрина и топ молчат. Жмите атаку и защиту, не магазин.</li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
+
+                <article class="tips">
+                    <h3>💡 Полезные советы новичку</h3>
+                    <ul>
+                        <li><strong>Взаимопомощь.</strong> Можно попросить золото у богатых зрителей или перевести другу. Комиссия <strong>10%</strong> сгорает в казну.</li>
+                    </ul>
+                    <code class="buy" data-buy="!передать @ник 100">!передать @ник 100</code>
+                    <ul>
+                        <li><strong>Антиспам.</strong> Информационные команды (<b>!магазин</b>, <b>!топ</b>) имеют общую задержку <strong>60 секунд</strong> — если кто-то уже запросил витрину, посмотри чат выше или оставайся на этом сайте.</li>
+                    </ul>
+                </article>
+            </div>
         </section>
 
         <footer>
             Мощь предмета = атака + защита. Автопродажа старого шмота в слоте — 40% его цены.
             Слота «щит» в игре нет: защита сидит в шлеме, броне и сапогах.
-            Цены, команды и формулы сверены с движком (ревизия 44). Покупка только во время трансляции.
+            Покупка только во время трансляции.
             Живая витрина: https://dantesdima-hub.github.io/rpg-shop/
         </footer>
     </div>
