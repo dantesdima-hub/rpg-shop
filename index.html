@@ -243,6 +243,50 @@
             padding: 16px; box-shadow: var(--shadow);
         }
         .tips h3 { font-size: 18px; margin-bottom: 10px; }
+        .dungeon-table, .leaders {
+            width: 100%; border-collapse: collapse; margin: 8px 0 14px;
+            font-size: 13.5px;
+        }
+        .dungeon-table th, .dungeon-table td, .leaders th, .leaders td {
+            text-align: left; padding: 8px 10px;
+            border-bottom: 1px solid rgba(232, 200, 114, 0.16);
+        }
+        .dungeon-table th, .leaders th {
+            color: var(--gold); font-size: 12px; letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .dungeon-table td, .leaders td { color: var(--ink); }
+        .dungeon-table tr:last-child td, .leaders tr:last-child td { border-bottom: 0; }
+        .ranks {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px; margin: 8px 0 22px;
+        }
+        .rank-card {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 14px;
+            padding: 12px; box-shadow: var(--shadow);
+        }
+        .rank-card h3 { font-size: 15px; margin-bottom: 4px; color: var(--gold); }
+        .rank-card p { color: var(--muted); font-size: 13px; margin: 0; }
+        .podium {
+            display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 10px;
+            align-items: end; margin: 8px 0 22px;
+        }
+        .place {
+            background: rgba(12, 10, 18, 0.55); border-radius: 16px; padding: 14px 12px;
+            text-align: center; box-shadow: var(--shadow);
+        }
+        .place h3 { font-size: 15px; margin: 6px 0 4px; }
+        .place p { color: var(--muted); font-size: 13px; margin: 0; }
+        .place .medal { font-size: 28px; line-height: 1; }
+        .place-1 { border: 2px solid #e8c872; box-shadow: 0 0 18px rgba(232, 200, 114, 0.28); padding-top: 22px; }
+        .place-2 { border: 2px solid #c0c7d1; }
+        .place-3 { border: 2px solid #c08454; }
+        .leaders .empty { color: var(--muted); text-align: center; font-size: 13.5px; }
+        .fame-rule {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
+            padding: 14px 16px; color: var(--muted); font-size: 14.5px; line-height: 1.55;
+        }
+        .fame-rule strong { color: var(--ink); }
         footer {
             margin-top: 40px; color: var(--muted); font-size: 13px; line-height: 1.5;
             border-top: 1px solid rgba(232, 200, 114, 0.14); padding-top: 16px;
@@ -276,6 +320,7 @@
             <button type="button" data-tab="consumables" role="tab" aria-selected="false">🧪 Расходники</button>
             <button type="button" data-tab="commands" role="tab" aria-selected="false">📜 Команды</button>
             <button type="button" data-tab="guide" role="tab" aria-selected="false">📖 Гайд</button>
+            <button type="button" data-tab="fame" role="tab" aria-selected="false">🏆 Зал славы</button>
         </nav>
 
         <section id="gear" class="active">
@@ -419,15 +464,15 @@
 
         <section id="commands">
             <h2 class="sec-title">Команды чата</h2>
-            <p class="sec-note">Клик по жёлтой команде копирует её в буфер. Имена пишутся с пробелом или через подчёркивание. Во время вторжения босса <b>!топ</b>, <b>!магазин</b>, <b>!задание</b>, <b>!карт</b> и <b>!рыбалка</b> молчат — бейте <b>!атака</b> и <b>!защита</b>.</p>
+            <p class="sec-note">Клик по жёлтой команде копирует её в буфер. Имена пишутся с пробелом или через подчёркивание. Во время рейда на босса мирные команды (<b>!магазин</b>, <b>!топ</b>, <b>!задание</b>, <b>!карт</b>, <b>!рыбалка</b>) временно на паузе, чтобы чат не отвлекался. Бейте <b>!атака</b> или держите строй <b>!защита</b>.</p>
 
             <article class="slot">
                 <div class="slot-head"><h3>⚔️ Походы и развитие</h3><span class="slot-badge">Соло</span></div>
                 <div class="commands">
                     <div class="cmd">
                         <h3>!поход [название]</h3>
-                        <p class="cmd-desc">Отправиться в подземелье. Ключи: пещера, шахта, склеп, чаща, цитадель, храм, бездна, разлом. Без аргумента — список с шансом.</p>
-                        <span class="alias">!походы</span><span class="alias">!dungeon</span>
+                        <p class="cmd-desc">Отправиться в подземелье. Без аргумента — три данжа под твою мощь и ссылка на полную таблицу. Ключи: пещера, шахта, склеп, чаща, цитадель, храм, бездна, разлом.</p>
+                        <span class="alias">!походы</span><span class="alias">!данжи</span><span class="alias">!dungeon</span>
                         <code class="buy" data-buy="!поход пещера">!поход пещера</code>
                     </div>
                     <div class="cmd">
@@ -514,7 +559,7 @@
                 <div class="commands">
                     <div class="cmd">
                         <h3>!топ</h3>
-                        <p class="cmd-desc">Топ-3 по мощи в одну строку. Полный зал славы — эта страница. Во время вторжения команда молчит.</p>
+                        <p class="cmd-desc">Топ-3 бойцов по боевой мощи (⚔️), не по золоту. Полный зал славы — вкладка на этой странице. Во время рейда команда на паузе.</p>
                         <span class="alias">!рейтинг</span><span class="alias">!рпгтоп</span>
                         <code class="buy" data-buy="!топ">!топ</code>
                     </div>
@@ -614,6 +659,21 @@
                             <span>Пещера</span><span>Шахта</span><span>Склеп</span><span>Чаща</span>
                             <span>Цитадель</span><span>Храм</span><span>Бездна</span><span>Разлом</span>
                         </div>
+                        <table class="dungeon-table">
+                            <thead>
+                                <tr><th>Данж</th><th>Ключ</th><th>Вход</th><th>Порог мощи</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Пещера</td><td>пещера</td><td>0g</td><td>20</td></tr>
+                                <tr><td>Шахта</td><td>шахта</td><td>25g</td><td>60</td></tr>
+                                <tr><td>Склеп</td><td>склеп</td><td>45g</td><td>120</td></tr>
+                                <tr><td>Чаща</td><td>чаща</td><td>70g</td><td>200</td></tr>
+                                <tr><td>Цитадель</td><td>цитадель</td><td>150g</td><td>320</td></tr>
+                                <tr><td>Храм</td><td>храм</td><td>300g</td><td>500</td></tr>
+                                <tr><td>Бездна</td><td>бездна</td><td>500g</td><td>750</td></tr>
+                                <tr><td>Разлом</td><td>разлом</td><td>800g</td><td>1100</td></tr>
+                            </tbody>
+                        </table>
                         <p><strong>Защита новичка:</strong> если твоей мощи (атака + защита) недостаточно и шанс выжить ≤ <strong>15%</strong>, стражники не пустят в данж. Это защита от случайного суицида.</p>
                         <p><strong>Что происходит при гибели:</strong> золото из кошелька и добыча в сумке сгорают, персонаж получает кулдаун на походы. Перед штурмом хай-энд данжей запасайся оберегом или амулетом жизни.</p>
                         <code class="buy" data-buy="!купить оберег 1">!купить оберег 1</code>
@@ -653,7 +713,7 @@
                             <summary>Подсказка</summary>
                             <ul>
                                 <li>Сначала сбейте броню босса: пока она жива, входящий урон режется. Статус — <b>!босс</b>.</li>
-                                <li>Во время вторжения витрина и топ молчат. Жмите атаку и защиту, не магазин.</li>
+                                <li>Во время рейда мирные команды временно блокируются, чтобы чат не отвлекался от босса. Жмите <b>!атака</b> и <b>!защита</b>, не магазин и не топ.</li>
                             </ul>
                         </details>
                     </div>
@@ -672,6 +732,60 @@
             </div>
         </section>
 
+        <section id="fame">
+            <h2 class="sec-title">Зал славы</h2>
+            <p class="sec-note">Рейтинг считается только по боевой мощи надетого снаряжения. Золото на место в топе не влияет. Живой топ-3 объявляет чат командой <b>!топ</b>.</p>
+
+            <h3 class="sec-title" style="font-size:22px;margin-top:8px;">Ранги по боевой мощи</h3>
+            <div class="ranks">
+                <article class="rank-card"><h3>🥉 Новичок</h3><p>0–50 мощи</p></article>
+                <article class="rank-card"><h3>🥈 Странник</h3><p>51–150 мощи</p></article>
+                <article class="rank-card"><h3>⚔️ Воин</h3><p>151–350 мощи</p></article>
+                <article class="rank-card"><h3>🛡️ Ветеран</h3><p>351–700 мощи</p></article>
+                <article class="rank-card"><h3>👑 Чемпион</h3><p>701–1200 мощи</p></article>
+                <article class="rank-card"><h3>🌟 Легенда</h3><p>1200+ мощи</p></article>
+            </div>
+
+            <h3 class="sec-title" style="font-size:22px;">Пьедестал чемпионов</h3>
+            <div class="podium">
+                <article class="place place-2">
+                    <div class="medal">🥈</div>
+                    <h3>2 место</h3>
+                    <p>Серебро · смотри <b>!топ</b></p>
+                    <p>⚔️ мощь</p>
+                </article>
+                <article class="place place-1">
+                    <div class="medal">🥇</div>
+                    <h3>1 место</h3>
+                    <p>Золото · смотри <b>!топ</b></p>
+                    <p>⚔️ мощь</p>
+                </article>
+                <article class="place place-3">
+                    <div class="medal">🥉</div>
+                    <h3>3 место</h3>
+                    <p>Бронза · смотри <b>!топ</b></p>
+                    <p>⚔️ мощь</p>
+                </article>
+            </div>
+
+            <h3 class="sec-title" style="font-size:22px;">Таблица лидеров</h3>
+            <table class="leaders">
+                <thead>
+                    <tr><th>#</th><th>Ник</th><th>Ранг</th><th>Мощь</th><th>Средний тир</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>—</td><td>👑 Чемпион</td><td>⚔️</td><td>Т?</td></tr>
+                    <tr><td>2</td><td>—</td><td>🛡️ Ветеран</td><td>⚔️</td><td>Т?</td></tr>
+                    <tr><td>3</td><td>—</td><td>⚔️ Воин</td><td>⚔️</td><td>Т?</td></tr>
+                    <tr><td colspan="5" class="empty">Живых лидеров называет бот в чате: <b>!топ</b>. Сюда они попадут, когда витрина научится читать эфир.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="fame-rule">
+                <strong>Как считается место.</strong> Мощь = атака + защита всего надетого: оружие + шлем + броня + сапоги + амулет. Бонусы наборов тоже входят в мощь. Золото в кошельке, расходники и ненадетый шмот позицию не двигают.
+            </div>
+        </section>
+
         <footer>
             Мощь предмета = атака + защита. Автопродажа старого шмота в слоте — 40% его цены.
             Слота «щит» в игре нет: защита сидит в шлеме, броне и сапогах.
@@ -686,9 +800,11 @@
                 gear: document.getElementById('gear'),
                 consumables: document.getElementById('consumables'),
                 commands: document.getElementById('commands'),
-                guide: document.getElementById('guide')
+                guide: document.getElementById('guide'),
+                fame: document.getElementById('fame')
             };
             function activate(id) {
+                if (!sections[id]) id = 'gear';
                 var key;
                 for (key in sections) {
                     if (!sections[key]) continue;
@@ -702,9 +818,13 @@
             }
             for (var t = 0; t < tabs.length; t++) {
                 tabs[t].addEventListener('click', function (ev) {
-                    activate(ev.currentTarget.getAttribute('data-tab'));
+                    var id = ev.currentTarget.getAttribute('data-tab');
+                    activate(id);
+                    if (history.replaceState) history.replaceState(null, '', '#' + id);
                 });
             }
+            var hash = (location.hash || '').replace('#', '');
+            if (hash && sections[hash]) activate(hash);
             document.addEventListener('click', function (e) {
                 var el = e.target;
                 while (el && el !== document && !(el.getAttribute && el.getAttribute('data-buy'))) {
