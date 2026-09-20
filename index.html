@@ -398,6 +398,11 @@
         .hof-table td { color: var(--ink); }
         .hof-table tr:last-child td { border-bottom: 0; }
         .hof-table tbody tr:hover td { background: rgba(232, 200, 114, 0.06); }
+        .hof-table tr.vacant td { color: var(--muted); }
+        .empty-slot {
+            opacity: 0.45;
+            font-style: italic;
+        }
         .fame-rule {
             background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
             padding: 14px 16px; color: var(--muted); font-size: 14.5px; line-height: 1.55;
@@ -888,8 +893,8 @@
                 <article class="podium-place place-2" data-place="2">
                     <div class="podium-card">
                         <div class="podium-medal">🥈</div>
-                        <h3 class="podium-name" data-hof="name">@Cliffz001</h3>
-                        <p class="podium-power" data-hof="power">541 ⚔️</p>
+                        <h3 class="podium-name" data-hof="name">@Kroxotb</h3>
+                        <p class="podium-power" data-hof="power">625 ⚔️</p>
                         <span class="podium-rank" data-hof="title">Ветеран</span>
                     </div>
                     <div class="podium-riser">
@@ -900,8 +905,8 @@
                 <article class="podium-place place-1" data-place="1">
                     <div class="podium-card">
                         <div class="podium-medal">👑</div>
-                        <h3 class="podium-name" data-hof="name">@Kroxotb</h3>
-                        <p class="podium-power" data-hof="power">541 ⚔️</p>
+                        <h3 class="podium-name" data-hof="name">@Cliffz001</h3>
+                        <p class="podium-power" data-hof="power">625 ⚔️</p>
                         <span class="podium-rank" data-hof="title">Ветеран</span>
                     </div>
                     <div class="podium-riser">
@@ -913,8 +918,8 @@
                     <div class="podium-card">
                         <div class="podium-medal">🥉</div>
                         <h3 class="podium-name" data-hof="name">@Sunder_33</h3>
-                        <p class="podium-power" data-hof="power">278 ⚔️</p>
-                        <span class="podium-rank" data-hof="title">Воин</span>
+                        <p class="podium-power" data-hof="power">385 ⚔️</p>
+                        <span class="podium-rank" data-hof="title">Ветеран</span>
                     </div>
                     <div class="podium-riser">
                         <div class="podium-top"></div>
@@ -929,9 +934,16 @@
                     <tr><th>#</th><th>Игрок</th><th>Ранг</th><th>Мощь</th><th>Снаряжение</th></tr>
                 </thead>
                 <tbody id="hof-body">
-                    <tr><td>1</td><td>@Kroxotb</td><td>Ветеран</td><td>541 ⚔️</td><td>—</td></tr>
-                    <tr><td>2</td><td>@Cliffz001</td><td>Ветеран</td><td>541 ⚔️</td><td>—</td></tr>
-                    <tr><td>3</td><td>@Sunder_33</td><td>Воин</td><td>278 ⚔️</td><td>—</td></tr>
+                    <tr><td>1</td><td>@Cliffz001</td><td>Ветеран</td><td>625 ⚔️</td><td>T4</td></tr>
+                    <tr><td>2</td><td>@Kroxotb</td><td>Ветеран</td><td>625 ⚔️</td><td>T4</td></tr>
+                    <tr><td>3</td><td>@Sunder_33</td><td>Ветеран</td><td>385 ⚔️</td><td>T3</td></tr>
+                    <tr class="vacant"><td>4</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>5</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>6</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>7</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>8</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>9</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
+                    <tr class="vacant"><td>10</td><td><span class="empty-slot">Ждёт героя</span></td><td>Новичок 🥉</td><td>—</td><td>—</td></tr>
                 </tbody>
             </table>
 
@@ -1009,8 +1021,18 @@
                 var el = root.querySelector('[data-hof="' + key + '"]');
                 if (el) el.textContent = text;
             }
+            var HOF_ROWS = 10;
+            function padLeaders(leaders) {
+                var list = [];
+                var src = leaders || [];
+                var cap = src.length < HOF_ROWS ? src.length : HOF_ROWS;
+                var i;
+                for (i = 0; i < cap; i++) list.push(src[i]);
+                while (list.length < HOF_ROWS) list.push(null);
+                return list;
+            }
             function applyHallOfFame(leaders) {
-                if (!leaders || !leaders.length) return;
+                var list = padLeaders(leaders);
                 var places = [
                     document.querySelector('.place-1'),
                     document.querySelector('.place-2'),
@@ -1019,11 +1041,11 @@
                 for (var p = 0; p < 3; p++) {
                     var card = places[p];
                     if (!card) continue;
-                    var row = leaders[p];
-                    if (!row) {
-                        setHofText(card, 'name', '—');
-                        setHofText(card, 'power', '');
-                        setHofText(card, 'title', '');
+                    var row = list[p];
+                    if (!row || !row.name) {
+                        setHofText(card, 'name', 'Ждёт героя');
+                        setHofText(card, 'power', '—');
+                        setHofText(card, 'title', 'Новичок');
                         continue;
                     }
                     setHofText(card, 'name', fameNick(row.name));
@@ -1033,19 +1055,31 @@
                 var tb = document.getElementById('hof-body');
                 if (!tb) return;
                 tb.textContent = '';
-                for (var i = 0; i < leaders.length; i++) {
-                    var r = leaders[i];
+                for (var i = 0; i < HOF_ROWS; i++) {
+                    var r = list[i];
+                    var vacant = !r || !r.name;
                     var tr = document.createElement('tr');
+                    if (vacant) tr.className = 'vacant';
                     var c0 = document.createElement('td');
                     var c1 = document.createElement('td');
                     var c2 = document.createElement('td');
                     var c3 = document.createElement('td');
                     var c4 = document.createElement('td');
                     c0.textContent = String(i + 1);
-                    c1.textContent = fameNick(r.name);
-                    c2.textContent = r.title || fameTitle(r.power);
-                    c3.textContent = famePower(r.power);
-                    c4.textContent = r.gear ? r.gear : '—';
+                    if (vacant) {
+                        var slot = document.createElement('span');
+                        slot.className = 'empty-slot';
+                        slot.textContent = 'Ждёт героя';
+                        c1.appendChild(slot);
+                        c2.textContent = 'Новичок 🥉';
+                        c3.textContent = '—';
+                        c4.textContent = '—';
+                    } else {
+                        c1.textContent = fameNick(r.name);
+                        c2.textContent = r.title || fameTitle(r.power);
+                        c3.textContent = famePower(r.power);
+                        c4.textContent = r.gear ? r.gear : '—';
+                    }
                     tr.appendChild(c0); tr.appendChild(c1); tr.appendChild(c2);
                     tr.appendChild(c3); tr.appendChild(c4);
                     tb.appendChild(tr);
