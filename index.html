@@ -243,20 +243,20 @@
             padding: 16px; box-shadow: var(--shadow);
         }
         .tips h3 { font-size: 18px; margin-bottom: 10px; }
-        .dungeon-table, .leaders {
+        .dungeon-table {
             width: 100%; border-collapse: collapse; margin: 8px 0 14px;
             font-size: 13.5px;
         }
-        .dungeon-table th, .dungeon-table td, .leaders th, .leaders td {
+        .dungeon-table th, .dungeon-table td {
             text-align: left; padding: 8px 10px;
             border-bottom: 1px solid rgba(232, 200, 114, 0.16);
         }
-        .dungeon-table th, .leaders th {
+        .dungeon-table th {
             color: var(--gold); font-size: 12px; letter-spacing: 0.06em;
             text-transform: uppercase;
         }
-        .dungeon-table td, .leaders td { color: var(--ink); }
-        .dungeon-table tr:last-child td, .leaders tr:last-child td { border-bottom: 0; }
+        .dungeon-table td { color: var(--ink); }
+        .dungeon-table tr:last-child td { border-bottom: 0; }
         .ranks {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 10px; margin: 8px 0 22px;
@@ -267,21 +267,136 @@
         }
         .rank-card h3 { font-size: 15px; margin-bottom: 4px; color: var(--gold); }
         .rank-card p { color: var(--muted); font-size: 13px; margin: 0; }
-        .podium {
-            display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 10px;
-            align-items: end; margin: 8px 0 22px;
+        .podium-container {
+            display: flex; align-items: flex-end; justify-content: center; gap: 16px; margin: 30px 0;
+            flex-wrap: nowrap;
         }
-        .place {
-            background: rgba(12, 10, 18, 0.55); border-radius: 16px; padding: 14px 12px;
-            text-align: center; box-shadow: var(--shadow);
+        .podium-place {
+            flex: 1; max-width: 160px; min-width: 0;
+            display: flex; flex-direction: column; align-items: stretch;
         }
-        .place h3 { font-size: 15px; margin: 6px 0 4px; }
-        .place p { color: var(--muted); font-size: 13px; margin: 0; }
-        .place .medal { font-size: 28px; line-height: 1; }
-        .place-1 { border: 2px solid #e8c872; box-shadow: 0 0 18px rgba(232, 200, 114, 0.28); padding-top: 22px; }
-        .place-2 { border: 2px solid #c0c7d1; }
-        .place-3 { border: 2px solid #c08454; }
-        .leaders .empty { color: var(--muted); text-align: center; font-size: 13.5px; }
+        .podium-card {
+            text-align: center;
+            padding: 12px 8px 14px;
+            border-radius: 16px 16px 6px 6px;
+            background: linear-gradient(180deg, rgba(32, 26, 44, 0.96), rgba(12, 10, 18, 0.94));
+            position: relative; z-index: 2;
+        }
+        .place-1 .podium-card {
+            padding: 18px 8px 20px;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.25);
+        }
+        .place-2 .podium-card {
+            border: 1px solid #94a3b8;
+            box-shadow: 0 0 18px rgba(203, 213, 225, 0.22);
+        }
+        .place-3 .podium-card {
+            border: 1px solid #d97706;
+            box-shadow: 0 0 16px rgba(217, 119, 6, 0.22);
+        }
+        .podium-medal { font-size: 28px; line-height: 1; }
+        .place-1 .podium-medal { font-size: 40px; }
+        .podium-badge {
+            display: inline-block; margin: 6px 0 8px;
+            font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+            text-transform: uppercase; border-radius: 999px; padding: 3px 8px;
+        }
+        .place-1 .podium-badge {
+            color: #1a1408; background: linear-gradient(180deg, #fde68a, #fbbf24);
+        }
+        .place-2 .podium-badge {
+            color: #0f172a; background: linear-gradient(180deg, #f1f5f9, #94a3b8);
+        }
+        .place-3 .podium-badge {
+            color: #1c1008; background: linear-gradient(180deg, #fdba74, #d97706);
+        }
+        .podium-emblem {
+            font-size: 26px; line-height: 1; margin: 4px 0 6px;
+        }
+        .place-1 .podium-emblem {
+            font-size: 30px;
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.7));
+        }
+        .place-2 .podium-emblem { filter: drop-shadow(0 0 8px rgba(203, 213, 225, 0.55)); }
+        .place-3 .podium-emblem { filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.55)); }
+        .wreath {
+            width: 52px; height: 52px; margin: 6px auto 8px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.45), inset 0 0 8px rgba(251, 191, 36, 0.28);
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.22), transparent 70%);
+        }
+        .podium-status {
+            font-size: 14px; font-weight: 800; margin: 0; color: var(--ink); line-height: 1.2;
+        }
+        .place-1 .podium-status { font-size: 16px; color: #fde68a; }
+        .podium-rank {
+            display: inline-block; margin-top: 8px;
+            font-size: 11px; font-weight: 700; color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 999px;
+            padding: 2px 8px; background: rgba(12, 10, 18, 0.45);
+        }
+        .podium-riser {
+            display: flex; flex-direction: column; width: 100%; margin-top: -2px;
+        }
+        .podium-top {
+            height: 16px;
+            transform: perspective(140px) rotateX(55deg);
+            transform-origin: bottom center;
+            margin: 0 4px -1px;
+            border-radius: 4px 4px 0 0;
+        }
+        .place-1 .podium-top {
+            background: linear-gradient(90deg, #b45309, #fbbf24, #fde68a, #fbbf24, #b45309);
+        }
+        .place-2 .podium-top {
+            background: linear-gradient(90deg, #64748b, #cbd5e1, #f8fafc, #cbd5e1, #64748b);
+        }
+        .place-3 .podium-top {
+            background: linear-gradient(90deg, #9a3412, #d97706, #fdba74, #d97706, #9a3412);
+        }
+        .podium-front {
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow:
+                inset 0 10px 14px rgba(255, 255, 255, 0.14),
+                inset 0 -12px 16px rgba(0, 0, 0, 0.38),
+                0 12px 18px rgba(0, 0, 0, 0.4);
+        }
+        .place-1 .podium-front {
+            height: 140px;
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 42%, #92400e 100%);
+        }
+        .place-2 .podium-front {
+            height: 100px;
+            background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 42%, #475569 100%);
+        }
+        .place-3 .podium-front {
+            height: 70px;
+            background: linear-gradient(180deg, #f59e0b 0%, #d97706 48%, #7c2d12 100%);
+        }
+        .step-num {
+            font-weight: 800; line-height: 1;
+            font-size: clamp(32px, 7vw, 72px);
+            color: rgba(255, 255, 255, 0.16);
+            text-shadow:
+                0 3px 0 rgba(255, 255, 255, 0.28),
+                0 -2px 0 rgba(0, 0, 0, 0.45),
+                0 8px 12px rgba(0, 0, 0, 0.25);
+        }
+        .place-1 .step-num { font-size: clamp(40px, 8vw, 84px); }
+        .live-top {
+            background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
+            padding: 16px 18px; box-shadow: var(--shadow);
+            text-align: center; color: var(--muted); font-size: 14.5px; line-height: 1.55;
+            margin: 8px 0 18px;
+        }
+        .live-top h3 { font-size: 16px; color: var(--gold); margin-bottom: 8px; }
+        .live-top .buy {
+            display: inline-block; margin: 4px 6px; width: auto;
+        }
         .fame-rule {
             background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
             padding: 14px 16px; color: var(--muted); font-size: 14.5px; line-height: 1.55;
@@ -299,11 +414,32 @@
             .tabs button { flex: 1 1 calc(50% - 10px); }
             .icon-wrap { width: 52px; height: 52px; }
             .item-icon { width: 44px; height: 44px; }
+            .podium-container { gap: 8px; margin: 22px 0; }
+            .podium-place { flex: 1; max-width: 160px; }
+            .podium-card { padding: 10px 6px 12px; }
+            .place-1 .podium-card { padding: 12px 6px 14px; }
+            .podium-medal { font-size: 22px; }
+            .place-1 .podium-medal { font-size: 28px; }
+            .podium-badge { font-size: 9px; padding: 2px 6px; letter-spacing: 0.04em; }
+            .podium-status { font-size: 12px; }
+            .place-1 .podium-status { font-size: 13px; }
+            .podium-rank { font-size: 10px; }
+            .wreath { width: 40px; height: 40px; }
+            .place-1 .podium-front { height: clamp(72px, 22vw, 110px); }
+            .place-2 .podium-front { height: clamp(52px, 16vw, 78px); }
+            .place-3 .podium-front { height: clamp(38px, 11vw, 54px); }
         }
         @media (max-width: 480px) {
             .wrap { width: min(100%, calc(100% - 20px)); }
             .row { grid-template-columns: 1fr; }
             .step { grid-template-columns: 1fr; }
+            .podium-container { gap: 6px; margin: 18px 0; flex-wrap: nowrap; }
+            .podium-place { flex: 1; max-width: 160px; min-width: 0; }
+            .podium-card { padding: 8px 4px 10px; border-radius: 12px 12px 4px 4px; }
+            .place-1 .podium-card { padding: 10px 4px 12px; }
+            .podium-emblem { font-size: 18px; }
+            .place-1 .podium-emblem { font-size: 20px; }
+            .live-top { font-size: 13px; padding: 12px 12px; }
         }
     </style>
 </head>
@@ -734,7 +870,7 @@
 
         <section id="fame">
             <h2 class="sec-title">Зал славы</h2>
-            <p class="sec-note">Рейтинг считается только по боевой мощи надетого снаряжения. Золото на место в топе не влияет. Живой топ-3 объявляет чат командой <b>!топ</b>.</p>
+            <p class="sec-note">Рейтинг считается только по боевой мощи надетого снаряжения. Золото на место в топе не влияет.</p>
 
             <h3 class="sec-title" style="font-size:22px;margin-top:8px;">Ранги по боевой мощи</h3>
             <div class="ranks">
@@ -746,40 +882,53 @@
                 <article class="rank-card"><h3>🌟 Легенда</h3><p>1200+ мощи</p></article>
             </div>
 
-            <h3 class="sec-title" style="font-size:22px;">Пьедестал чемпионов</h3>
-            <div class="podium">
-                <article class="place place-2">
-                    <div class="medal">🥈</div>
-                    <h3>2 место</h3>
-                    <p>Серебро · смотри <b>!топ</b></p>
-                    <p>⚔️ мощь</p>
+            <h3 class="sec-title" style="font-size:22px;">Ступенчатый пьедестал чемпионов</h3>
+            <div class="podium-container">
+                <article class="podium-place place-2">
+                    <div class="podium-card">
+                        <div class="podium-medal">🥈</div>
+                        <div class="podium-badge">2 МЕСТО</div>
+                        <div class="podium-emblem" aria-hidden="true">🛡️</div>
+                        <h3 class="podium-status">Претендент</h3>
+                        <span class="podium-rank">Ветеран+</span>
+                    </div>
+                    <div class="podium-riser">
+                        <div class="podium-top"></div>
+                        <div class="podium-front"><span class="step-num">2</span></div>
+                    </div>
                 </article>
-                <article class="place place-1">
-                    <div class="medal">🥇</div>
-                    <h3>1 место</h3>
-                    <p>Золото · смотри <b>!топ</b></p>
-                    <p>⚔️ мощь</p>
+                <article class="podium-place place-1">
+                    <div class="podium-card">
+                        <div class="podium-medal">👑</div>
+                        <div class="podium-badge">1 МЕСТО · ЧЕМПИОН</div>
+                        <div class="podium-emblem wreath" aria-label="Золотой лавровый венок">🏵️</div>
+                        <h3 class="podium-status">Абсолютный лидер</h3>
+                        <span class="podium-rank">Легенда / Чемпион</span>
+                    </div>
+                    <div class="podium-riser">
+                        <div class="podium-top"></div>
+                        <div class="podium-front"><span class="step-num">1</span></div>
+                    </div>
                 </article>
-                <article class="place place-3">
-                    <div class="medal">🥉</div>
-                    <h3>3 место</h3>
-                    <p>Бронза · смотри <b>!топ</b></p>
-                    <p>⚔️ мощь</p>
+                <article class="podium-place place-3">
+                    <div class="podium-card">
+                        <div class="podium-medal">🥉</div>
+                        <div class="podium-badge">3 МЕСТО</div>
+                        <div class="podium-emblem" aria-hidden="true">⚔️</div>
+                        <h3 class="podium-status">Фаворит</h3>
+                        <span class="podium-rank">Воин+</span>
+                    </div>
+                    <div class="podium-riser">
+                        <div class="podium-top"></div>
+                        <div class="podium-front"><span class="step-num">3</span></div>
+                    </div>
                 </article>
             </div>
 
-            <h3 class="sec-title" style="font-size:22px;">Таблица лидеров</h3>
-            <table class="leaders">
-                <thead>
-                    <tr><th>#</th><th>Ник</th><th>Ранг</th><th>Мощь</th><th>Средний тир</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td>—</td><td>👑 Чемпион</td><td>⚔️</td><td>Т?</td></tr>
-                    <tr><td>2</td><td>—</td><td>🛡️ Ветеран</td><td>⚔️</td><td>Т?</td></tr>
-                    <tr><td>3</td><td>—</td><td>⚔️ Воин</td><td>⚔️</td><td>Т?</td></tr>
-                    <tr><td colspan="5" class="empty">Живых лидеров называет бот в чате: <b>!топ</b>. Сюда они попадут, когда витрина научится читать эфир.</td></tr>
-                </tbody>
-            </table>
+            <article class="live-top">
+                <h3>Живой рейтинг</h3>
+                <p>Узнать тройку текущих лидеров стрима в реальном времени можно в чате по команде <code class="buy" data-buy="!топ">!топ</code> (клик для копирования)</p>
+            </article>
 
             <div class="fame-rule">
                 <strong>Как считается место.</strong> Мощь = атака + защита всего надетого: оружие + шлем + броня + сапоги + амулет. Бонусы наборов тоже входят в мощь. Золото в кошельке, расходники и ненадетый шмот позицию не двигают.
