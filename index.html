@@ -140,9 +140,9 @@
         .item-icon {
             width: 56px; height: 56px;
             object-fit: contain; display: block;
-        }
-        .item-icon-fallback {
-            font-size: 28px; line-height: 1;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         .stats { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
         .atk { color: var(--atk); }
@@ -255,7 +255,6 @@
             .tabs button { flex: 1 1 calc(50% - 10px); }
             .icon-wrap { width: 52px; height: 52px; }
             .item-icon { width: 44px; height: 44px; }
-            .item-icon-fallback { font-size: 24px; }
         }
         @media (max-width: 480px) {
             .wrap { width: min(100%, calc(100% - 20px)); }
@@ -309,9 +308,9 @@
                 <div class="slot-head"><h3>🛡️ Броня</h3><span class="slot-badge">Слот: Тело</span></div>
                 <div class="row">
                     <div class="card"><div class="tier">Tier 1</div><div class="icon-wrap"><img src="icons/armor_t1.png" alt="Стёганый жилет" class="item-icon" /></div><div class="name">Стёганый жилет</div><div class="stats"><span class="atk">+1 атк</span><span class="def">+8 защ</span><span class="pwr">мощь 9</span></div><div class="price">🪙 180<span>g</span></div><code class="buy" data-buy="!купить стёганый жилет">!купить стёганый жилет</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="icon-wrap"><img src="icons/armor_t1.png" alt="Кольчуга ополченца" class="item-icon" /></div><div class="name">Кольчуга ополченца</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+22 защ</span><span class="pwr">мощь 26</span></div><div class="price">🪙 750<span>g</span></div><code class="buy" data-buy="!купить кольчуга ополченца">!купить кольчуга ополченца</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="icon-wrap"><img src="icons/armor_t1.png" alt="Латы паладина" class="item-icon" /></div><div class="name">Латы паладина</div><div class="stats"><span class="atk">+11 атк</span><span class="def">+59 защ</span><span class="pwr">мощь 70</span></div><div class="price">🪙 2 600<span>g</span></div><code class="buy" data-buy="!купить латы паладина">!купить латы паладина</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/armor_t1.png" alt="Доспех «Несокрушимый»" class="item-icon" /></div><div class="name">Доспех «Несокрушимый»</div><div class="stats"><span class="atk">+24 атк</span><span class="def">+134 защ</span><span class="pwr">мощь 158</span></div><div class="price">🪙 9 500<span>g</span></div><code class="buy" data-buy="!купить доспех «несокрушимый»">!купить доспех «несокрушимый»</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="icon-wrap"><img src="icons/armor_t2.png" alt="Кольчуга ополченца" class="item-icon" /></div><div class="name">Кольчуга ополченца</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+22 защ</span><span class="pwr">мощь 26</span></div><div class="price">🪙 750<span>g</span></div><code class="buy" data-buy="!купить кольчуга ополченца">!купить кольчуга ополченца</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="icon-wrap"><img src="icons/armor_t3.png" alt="Латы паладина" class="item-icon" /></div><div class="name">Латы паладина</div><div class="stats"><span class="atk">+11 атк</span><span class="def">+59 защ</span><span class="pwr">мощь 70</span></div><div class="price">🪙 2 600<span>g</span></div><code class="buy" data-buy="!купить латы паладина">!купить латы паладина</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/armor_t4.png" alt="Доспех «Несокрушимый»" class="item-icon" /></div><div class="name">Доспех «Несокрушимый»</div><div class="stats"><span class="atk">+24 атк</span><span class="def">+134 защ</span><span class="pwr">мощь 158</span></div><div class="price">🪙 9 500<span>g</span></div><code class="buy" data-buy="!купить доспех «несокрушимый»">!купить доспех «несокрушимый»</code></div>
                     <div class="card"><div class="tier">Tier 5</div><div class="icon-wrap"><img src="icons/armor_t5.png" alt="Доспех последнего рассвета" class="item-icon" /></div><div class="name">Доспех последнего рассвета</div><div class="stats"><span class="atk">+52 атк</span><span class="def">+295 защ</span><span class="pwr">мощь 347</span></div><div class="price">🪙 39 000<span>g</span></div><code class="buy" data-buy="!купить доспех последнего рассвета">!купить доспех последнего рассвета</code></div>
                 </div>
             </article>
@@ -319,22 +318,22 @@
             <article class="slot">
                 <div class="slot-head"><h3>👢 Сапоги</h3><span class="slot-badge">Слот: Ноги</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="icon-wrap"><img src="icons/boots_t2.png" alt="Дырявые сапоги" class="item-icon" /></div><div class="name">Дырявые сапоги</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+4 защ</span><span class="pwr">мощь 6</span></div><div class="price">🪙 130<span>g</span></div><code class="buy" data-buy="!купить дырявые сапоги">!купить дырявые сапоги</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="icon-wrap"><img src="icons/boots_t1.png" alt="Дырявые сапоги" class="item-icon" /></div><div class="name">Дырявые сапоги</div><div class="stats"><span class="atk">+2 атк</span><span class="def">+4 защ</span><span class="pwr">мощь 6</span></div><div class="price">🪙 130<span>g</span></div><code class="buy" data-buy="!купить дырявые сапоги">!купить дырявые сапоги</code></div>
                     <div class="card"><div class="tier">Tier 2</div><div class="icon-wrap"><img src="icons/boots_t2.png" alt="Поножи разведчика" class="item-icon" /></div><div class="name">Поножи разведчика</div><div class="stats"><span class="atk">+7 атк</span><span class="def">+14 защ</span><span class="pwr">мощь 21</span></div><div class="price">🪙 600<span>g</span></div><code class="buy" data-buy="!купить поножи разведчика">!купить поножи разведчика</code></div>
-                    <div class="card"><div class="tier">Tier 3</div><div class="icon-wrap"><img src="icons/boots_t2.png" alt="Сапоги горного тропа" class="item-icon" /></div><div class="name">Сапоги горного тропа</div><div class="stats"><span class="atk">+18 атк</span><span class="def">+34 защ</span><span class="pwr">мощь 52</span></div><div class="price">🪙 1 900<span>g</span></div><code class="buy" data-buy="!купить сапоги горного тропа">!купить сапоги горного тропа</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/boots_t2.png" alt="Поножи бегущего по льду" class="item-icon" /></div><div class="name">Поножи бегущего по льду</div><div class="stats"><span class="atk">+44 атк</span><span class="def">+81 защ</span><span class="pwr">мощь 125</span></div><div class="price">🪙 7 500<span>g</span></div><code class="buy" data-buy="!купить поножи бегущего по льду">!купить поножи бегущего по льду</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="icon-wrap"><img src="icons/boots_t2.png" alt="Сапоги вне времени" class="item-icon" /></div><div class="name">Сапоги вне времени</div><div class="stats"><span class="atk">+87 атк</span><span class="def">+162 защ</span><span class="pwr">мощь 249</span></div><div class="price">🪙 28 000<span>g</span></div><code class="buy" data-buy="!купить сапоги вне времени">!купить сапоги вне времени</code></div>
+                    <div class="card"><div class="tier">Tier 3</div><div class="icon-wrap"><img src="icons/boots_t3.png" alt="Сапоги горного тропа" class="item-icon" /></div><div class="name">Сапоги горного тропа</div><div class="stats"><span class="atk">+18 атк</span><span class="def">+34 защ</span><span class="pwr">мощь 52</span></div><div class="price">🪙 1 900<span>g</span></div><code class="buy" data-buy="!купить сапоги горного тропа">!купить сапоги горного тропа</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/boots_t4.png" alt="Поножи бегущего по льду" class="item-icon" /></div><div class="name">Поножи бегущего по льду</div><div class="stats"><span class="atk">+44 атк</span><span class="def">+81 защ</span><span class="pwr">мощь 125</span></div><div class="price">🪙 7 500<span>g</span></div><code class="buy" data-buy="!купить поножи бегущего по льду">!купить поножи бегущего по льду</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="icon-wrap"><img src="icons/boots_t5.png" alt="Сапоги вне времени" class="item-icon" /></div><div class="name">Сапоги вне времени</div><div class="stats"><span class="atk">+87 атк</span><span class="def">+162 защ</span><span class="pwr">мощь 249</span></div><div class="price">🪙 28 000<span>g</span></div><code class="buy" data-buy="!купить сапоги вне времени">!купить сапоги вне времени</code></div>
                 </div>
             </article>
 
             <article class="slot">
                 <div class="slot-head"><h3>📿 Амулет</h3><span class="slot-badge">Слот: Амулет</span></div>
                 <div class="row">
-                    <div class="card"><div class="tier">Tier 1</div><div class="icon-wrap"><img src="icons/amulet_t3.png" alt="Медный оберег" class="item-icon" /></div><div class="name">Медный оберег</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 7</span></div><div class="price">🪙 140<span>g</span></div><code class="buy" data-buy="!купить медный оберег">!купить медный оберег</code></div>
-                    <div class="card"><div class="tier">Tier 2</div><div class="icon-wrap"><img src="icons/amulet_t3.png" alt="Амулет странника" class="item-icon" /></div><div class="name">Амулет странника</div><div class="stats"><span class="atk">+12 атк</span><span class="def">+12 защ</span><span class="pwr">мощь 24</span></div><div class="price">🪙 700<span>g</span></div><code class="buy" data-buy="!купить амулет странника">!купить амулет странника</code></div>
+                    <div class="card"><div class="tier">Tier 1</div><div class="icon-wrap"><img src="icons/amulet_t1.png" alt="Медный оберег" class="item-icon" /></div><div class="name">Медный оберег</div><div class="stats"><span class="atk">+4 атк</span><span class="def">+3 защ</span><span class="pwr">мощь 7</span></div><div class="price">🪙 140<span>g</span></div><code class="buy" data-buy="!купить медный оберег">!купить медный оберег</code></div>
+                    <div class="card"><div class="tier">Tier 2</div><div class="icon-wrap"><img src="icons/amulet_t2.png" alt="Амулет странника" class="item-icon" /></div><div class="name">Амулет странника</div><div class="stats"><span class="atk">+12 атк</span><span class="def">+12 защ</span><span class="pwr">мощь 24</span></div><div class="price">🪙 700<span>g</span></div><code class="buy" data-buy="!купить амулет странника">!купить амулет странника</code></div>
                     <div class="card"><div class="tier">Tier 3</div><div class="icon-wrap"><img src="icons/amulet_t3.png" alt="Печать хранителя" class="item-icon" /></div><div class="name">Печать хранителя</div><div class="stats"><span class="atk">+31 атк</span><span class="def">+31 защ</span><span class="pwr">мощь 62</span></div><div class="price">🪙 2 300<span>g</span></div><code class="buy" data-buy="!купить печать хранителя">!купить печать хранителя</code></div>
-                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/amulet_t3.png" alt="Амулет драконьего пламени" class="item-icon" /></div><div class="name">Амулет драконьего пламени</div><div class="stats"><span class="atk">+71 атк</span><span class="def">+71 защ</span><span class="pwr">мощь 142</span></div><div class="price">🪙 8 500<span>g</span></div><code class="buy" data-buy="!купить амулет драконьего пламени">!купить амулет драконьего пламени</code></div>
-                    <div class="card"><div class="tier">Tier 5</div><div class="icon-wrap"><img src="icons/amulet_t3.png" alt="Амулет последней надежды" class="item-icon" /></div><div class="name">Амулет последней надежды</div><div class="stats"><span class="atk">+156 атк</span><span class="def">+155 защ</span><span class="pwr">мощь 311</span></div><div class="price">🪙 35 000<span>g</span></div><code class="buy" data-buy="!купить амулет последней надежды">!купить амулет последней надежды</code></div>
+                    <div class="card"><div class="tier">Tier 4</div><div class="icon-wrap"><img src="icons/amulet_t4.png" alt="Амулет драконьего пламени" class="item-icon" /></div><div class="name">Амулет драконьего пламени</div><div class="stats"><span class="atk">+71 атк</span><span class="def">+71 защ</span><span class="pwr">мощь 142</span></div><div class="price">🪙 8 500<span>g</span></div><code class="buy" data-buy="!купить амулет драконьего пламени">!купить амулет драконьего пламени</code></div>
+                    <div class="card"><div class="tier">Tier 5</div><div class="icon-wrap"><img src="icons/amulet_t5.png" alt="Амулет последней надежды" class="item-icon" /></div><div class="name">Амулет последней надежды</div><div class="stats"><span class="atk">+156 атк</span><span class="def">+155 защ</span><span class="pwr">мощь 311</span></div><div class="price">🪙 35 000<span>g</span></div><code class="buy" data-buy="!купить амулет последней надежды">!купить амулет последней надежды</code></div>
                 </div>
             </article>
         </section>
@@ -377,7 +376,7 @@
                 </div>
                 <div class="card">
                     <div class="tier">400g · сразу</div>
-                    <div class="icon-wrap" aria-label="Целебная мазь"><span class="item-icon-fallback">🧴</span></div>
+                    <div class="icon-wrap"><img src="icons/salve.png" alt="Целебная мазь" class="item-icon" /></div>
                     <div class="name">Целебная мазь</div>
                     <p class="effect">Снимает все травмы разом, включая тяжёлую.</p>
                     <div class="price">🪙 400<span>g</span></div>
