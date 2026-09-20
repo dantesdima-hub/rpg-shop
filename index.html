@@ -284,59 +284,35 @@
         }
         .place-1 .podium-card {
             padding: 18px 8px 20px;
-            border: 2px solid #fbbf24;
-            box-shadow: 0 0 25px rgba(251, 191, 36, 0.25);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
         }
         .place-2 .podium-card {
             border: 1px solid #94a3b8;
-            box-shadow: 0 0 18px rgba(203, 213, 225, 0.22);
+            box-shadow: 0 0 18px rgba(226, 232, 240, 0.22);
         }
         .place-3 .podium-card {
-            border: 1px solid #d97706;
-            box-shadow: 0 0 16px rgba(217, 119, 6, 0.22);
+            border: 2px solid #92400e;
+            box-shadow: 0 0 16px rgba(146, 64, 14, 0.35);
         }
         .podium-medal { font-size: 28px; line-height: 1; }
         .place-1 .podium-medal { font-size: 40px; }
-        .podium-badge {
-            display: inline-block; margin: 6px 0 8px;
-            font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
-            text-transform: uppercase; border-radius: 999px; padding: 3px 8px;
+        .podium-name {
+            font-size: 14px; font-weight: 800; margin: 8px 0 4px;
+            color: var(--ink); line-height: 1.2; word-break: break-word;
         }
-        .place-1 .podium-badge {
-            color: #1a1408; background: linear-gradient(180deg, #fde68a, #fbbf24);
+        .place-1 .podium-name { font-size: 15px; color: #fde68a; }
+        .podium-power {
+            font-size: 13px; font-weight: 700; color: var(--ink); margin: 0 0 6px;
         }
-        .place-2 .podium-badge {
-            color: #0f172a; background: linear-gradient(180deg, #f1f5f9, #94a3b8);
-        }
-        .place-3 .podium-badge {
-            color: #1c1008; background: linear-gradient(180deg, #fdba74, #d97706);
-        }
-        .podium-emblem {
-            font-size: 26px; line-height: 1; margin: 4px 0 6px;
-        }
-        .place-1 .podium-emblem {
-            font-size: 30px;
-            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.7));
-        }
-        .place-2 .podium-emblem { filter: drop-shadow(0 0 8px rgba(203, 213, 225, 0.55)); }
-        .place-3 .podium-emblem { filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.55)); }
-        .wreath {
-            width: 52px; height: 52px; margin: 6px auto 8px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 3px solid #fbbf24;
-            box-shadow: 0 0 12px rgba(251, 191, 36, 0.45), inset 0 0 8px rgba(251, 191, 36, 0.28);
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.22), transparent 70%);
-        }
-        .podium-status {
-            font-size: 14px; font-weight: 800; margin: 0; color: var(--ink); line-height: 1.2;
-        }
-        .place-1 .podium-status { font-size: 16px; color: #fde68a; }
         .podium-rank {
-            display: inline-block; margin-top: 8px;
+            display: inline-block; margin-top: 4px;
             font-size: 11px; font-weight: 700; color: var(--gold);
             border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 999px;
             padding: 2px 8px; background: rgba(12, 10, 18, 0.45);
+        }
+        .place-3 .podium-rank {
+            color: #e7c09a; border-color: rgba(146, 64, 14, 0.55);
         }
         .podium-riser {
             display: flex; flex-direction: column; width: 100%; margin-top: -2px;
@@ -349,16 +325,18 @@
             border-radius: 4px 4px 0 0;
         }
         .place-1 .podium-top {
-            background: linear-gradient(90deg, #b45309, #fbbf24, #fde68a, #fbbf24, #b45309);
+            background: linear-gradient(90deg, #d97706, #fbbf24, #fde68a, #fbbf24, #d97706);
         }
         .place-2 .podium-top {
-            background: linear-gradient(90deg, #64748b, #cbd5e1, #f8fafc, #cbd5e1, #64748b);
+            background: linear-gradient(90deg, #64748b, #e2e8f0, #f8fafc, #e2e8f0, #64748b);
         }
         .place-3 .podium-top {
-            background: linear-gradient(90deg, #9a3412, #d97706, #fdba74, #d97706, #9a3412);
+            background: linear-gradient(90deg, #5c2406, #78350f, #b45309, #78350f, #5c2406);
         }
         .podium-front {
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 0 0 10px 10px;
             box-shadow:
                 inset 0 10px 14px rgba(255, 255, 255, 0.14),
@@ -367,26 +345,34 @@
         }
         .place-1 .podium-front {
             height: 140px;
-            background: linear-gradient(180deg, #fbbf24 0%, #d97706 42%, #92400e 100%);
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
         }
         .place-2 .podium-front {
             height: 100px;
-            background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 42%, #475569 100%);
+            background: linear-gradient(180deg, #e2e8f0 0%, #64748b 100%);
         }
         .place-3 .podium-front {
             height: 70px;
-            background: linear-gradient(180deg, #f59e0b 0%, #d97706 48%, #7c2d12 100%);
+            background: linear-gradient(180deg, #b45309 0%, #78350f 55%, #5c2406 100%);
         }
-        .step-num {
-            font-weight: 800; line-height: 1;
-            font-size: clamp(32px, 7vw, 72px);
-            color: rgba(255, 255, 255, 0.16);
-            text-shadow:
-                0 3px 0 rgba(255, 255, 255, 0.28),
-                0 -2px 0 rgba(0, 0, 0, 0.45),
-                0 8px 12px rgba(0, 0, 0, 0.25);
+        .podium-front .step-num {
+            display: block;
+            width: auto; height: auto;
+            min-width: 0; min-height: 0;
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+            flex-shrink: 0;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+            font-size: 54px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.35);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            user-select: none;
+            -webkit-user-select: none;
         }
-        .place-1 .step-num { font-size: clamp(40px, 8vw, 84px); }
         .live-top {
             background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
             padding: 16px 18px; box-shadow: var(--shadow);
@@ -397,6 +383,21 @@
         .live-top .buy {
             display: inline-block; margin: 4px 6px; width: auto;
         }
+        .hof-table {
+            width: 100%; border-collapse: collapse; margin: 8px 0 18px;
+            font-size: 13.5px;
+        }
+        .hof-table th, .hof-table td {
+            text-align: left; padding: 8px 10px;
+            border-bottom: 1px solid rgba(232, 200, 114, 0.16);
+        }
+        .hof-table th {
+            color: var(--gold); font-size: 12px; letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .hof-table td { color: var(--ink); }
+        .hof-table tr:last-child td { border-bottom: 0; }
+        .hof-table tbody tr:hover td { background: rgba(232, 200, 114, 0.06); }
         .fame-rule {
             background: var(--card); border: 1px solid var(--stroke); border-radius: 16px;
             padding: 14px 16px; color: var(--muted); font-size: 14.5px; line-height: 1.55;
@@ -420,11 +421,11 @@
             .place-1 .podium-card { padding: 12px 6px 14px; }
             .podium-medal { font-size: 22px; }
             .place-1 .podium-medal { font-size: 28px; }
-            .podium-badge { font-size: 9px; padding: 2px 6px; letter-spacing: 0.04em; }
-            .podium-status { font-size: 12px; }
-            .place-1 .podium-status { font-size: 13px; }
+            .podium-name { font-size: 12px; }
+            .place-1 .podium-name { font-size: 13px; }
+            .podium-power { font-size: 12px; }
             .podium-rank { font-size: 10px; }
-            .wreath { width: 40px; height: 40px; }
+            .podium-front .step-num { font-size: 36px; }
             .place-1 .podium-front { height: clamp(72px, 22vw, 110px); }
             .place-2 .podium-front { height: clamp(52px, 16vw, 78px); }
             .place-3 .podium-front { height: clamp(38px, 11vw, 54px); }
@@ -437,9 +438,9 @@
             .podium-place { flex: 1; max-width: 160px; min-width: 0; }
             .podium-card { padding: 8px 4px 10px; border-radius: 12px 12px 4px 4px; }
             .place-1 .podium-card { padding: 10px 4px 12px; }
-            .podium-emblem { font-size: 18px; }
-            .place-1 .podium-emblem { font-size: 20px; }
+            .podium-front .step-num { font-size: 28px; }
             .live-top { font-size: 13px; padding: 12px 12px; }
+            .hof-table { font-size: 12px; }
         }
     </style>
 </head>
@@ -884,39 +885,36 @@
 
             <h3 class="sec-title" style="font-size:22px;">Ступенчатый пьедестал чемпионов</h3>
             <div class="podium-container">
-                <article class="podium-place place-2">
+                <article class="podium-place place-2" data-place="2">
                     <div class="podium-card">
                         <div class="podium-medal">🥈</div>
-                        <div class="podium-badge">2 МЕСТО</div>
-                        <div class="podium-emblem" aria-hidden="true">🛡️</div>
-                        <h3 class="podium-status">Претендент</h3>
-                        <span class="podium-rank">Ветеран+</span>
+                        <h3 class="podium-name" data-hof="name">@Cliffz001</h3>
+                        <p class="podium-power" data-hof="power">541 ⚔️</p>
+                        <span class="podium-rank" data-hof="title">Ветеран</span>
                     </div>
                     <div class="podium-riser">
                         <div class="podium-top"></div>
                         <div class="podium-front"><span class="step-num">2</span></div>
                     </div>
                 </article>
-                <article class="podium-place place-1">
+                <article class="podium-place place-1" data-place="1">
                     <div class="podium-card">
                         <div class="podium-medal">👑</div>
-                        <div class="podium-badge">1 МЕСТО · ЧЕМПИОН</div>
-                        <div class="podium-emblem wreath" aria-label="Золотой лавровый венок">🏵️</div>
-                        <h3 class="podium-status">Абсолютный лидер</h3>
-                        <span class="podium-rank">Легенда / Чемпион</span>
+                        <h3 class="podium-name" data-hof="name">@Kroxotb</h3>
+                        <p class="podium-power" data-hof="power">541 ⚔️</p>
+                        <span class="podium-rank" data-hof="title">Ветеран</span>
                     </div>
                     <div class="podium-riser">
                         <div class="podium-top"></div>
                         <div class="podium-front"><span class="step-num">1</span></div>
                     </div>
                 </article>
-                <article class="podium-place place-3">
+                <article class="podium-place place-3" data-place="3">
                     <div class="podium-card">
                         <div class="podium-medal">🥉</div>
-                        <div class="podium-badge">3 МЕСТО</div>
-                        <div class="podium-emblem" aria-hidden="true">⚔️</div>
-                        <h3 class="podium-status">Фаворит</h3>
-                        <span class="podium-rank">Воин+</span>
+                        <h3 class="podium-name" data-hof="name">@Sunder_33</h3>
+                        <p class="podium-power" data-hof="power">278 ⚔️</p>
+                        <span class="podium-rank" data-hof="title">Воин</span>
                     </div>
                     <div class="podium-riser">
                         <div class="podium-top"></div>
@@ -924,6 +922,18 @@
                     </div>
                 </article>
             </div>
+
+            <h3 class="sec-title" style="font-size:22px;">Таблица лидеров</h3>
+            <table class="hof-table">
+                <thead>
+                    <tr><th>#</th><th>Игрок</th><th>Ранг</th><th>Мощь</th><th>Снаряжение</th></tr>
+                </thead>
+                <tbody id="hof-body">
+                    <tr><td>1</td><td>@Kroxotb</td><td>Ветеран</td><td>541 ⚔️</td><td>—</td></tr>
+                    <tr><td>2</td><td>@Cliffz001</td><td>Ветеран</td><td>541 ⚔️</td><td>—</td></tr>
+                    <tr><td>3</td><td>@Sunder_33</td><td>Воин</td><td>278 ⚔️</td><td>—</td></tr>
+                </tbody>
+            </table>
 
             <article class="live-top">
                 <h3>Живой рейтинг</h3>
@@ -974,6 +984,81 @@
             }
             var hash = (location.hash || '').replace('#', '');
             if (hash && sections[hash]) activate(hash);
+            function fameTitle(power) {
+                if (power >= 1200) return 'Легенда';
+                if (power >= 701) return 'Чемпион';
+                if (power >= 351) return 'Ветеран';
+                if (power >= 151) return 'Воин';
+                if (power >= 51) return 'Странник';
+                return 'Новичок';
+            }
+            function fameNick(name) {
+                if (!name) return '—';
+                return name.charAt(0) === '@' ? name : '@' + name;
+            }
+            function famePower(n) {
+                var s = String(Math.abs(n || 0));
+                var out = '';
+                var first = s.length % 3;
+                if (first === 0) first = 3;
+                out = s.slice(0, first);
+                for (var i = first; i < s.length; i += 3) out += ' ' + s.slice(i, i + 3);
+                return out + ' ⚔️';
+            }
+            function setHofText(root, key, text) {
+                var el = root.querySelector('[data-hof="' + key + '"]');
+                if (el) el.textContent = text;
+            }
+            function applyHallOfFame(leaders) {
+                if (!leaders || !leaders.length) return;
+                var places = [
+                    document.querySelector('.place-1'),
+                    document.querySelector('.place-2'),
+                    document.querySelector('.place-3')
+                ];
+                for (var p = 0; p < 3; p++) {
+                    var card = places[p];
+                    if (!card) continue;
+                    var row = leaders[p];
+                    if (!row) {
+                        setHofText(card, 'name', '—');
+                        setHofText(card, 'power', '');
+                        setHofText(card, 'title', '');
+                        continue;
+                    }
+                    setHofText(card, 'name', fameNick(row.name));
+                    setHofText(card, 'power', famePower(row.power));
+                    setHofText(card, 'title', row.title || fameTitle(row.power));
+                }
+                var tb = document.getElementById('hof-body');
+                if (!tb) return;
+                tb.textContent = '';
+                for (var i = 0; i < leaders.length; i++) {
+                    var r = leaders[i];
+                    var tr = document.createElement('tr');
+                    var c0 = document.createElement('td');
+                    var c1 = document.createElement('td');
+                    var c2 = document.createElement('td');
+                    var c3 = document.createElement('td');
+                    var c4 = document.createElement('td');
+                    c0.textContent = String(i + 1);
+                    c1.textContent = fameNick(r.name);
+                    c2.textContent = r.title || fameTitle(r.power);
+                    c3.textContent = famePower(r.power);
+                    c4.textContent = r.gear ? r.gear : '—';
+                    tr.appendChild(c0); tr.appendChild(c1); tr.appendChild(c2);
+                    tr.appendChild(c3); tr.appendChild(c4);
+                    tb.appendChild(tr);
+                }
+            }
+            try {
+                fetch('top.json').then(function (res) {
+                    if (!res || !res.ok) return null;
+                    return res.json();
+                }).then(function (data) {
+                    if (data && data.leaders && data.leaders.length) applyHallOfFame(data.leaders);
+                }).catch(function () {});
+            } catch (e) {}
             document.addEventListener('click', function (e) {
                 var el = e.target;
                 while (el && el !== document && !(el.getAttribute && el.getAttribute('data-buy'))) {
